@@ -9,8 +9,7 @@ import {
   Pill, 
   FileText, 
   Trash2, 
-  Volume2,
-  Sparkles
+  Volume2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Reminder } from '../types';
@@ -42,34 +41,34 @@ export const RemindersPage: React.FC = () => {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            {t('remindersTitle')}
+          <h1 className="text-3xl font-semibold text-sahayak-text tracking-tight">
+            {t('yourReminders')}
           </h1>
-          <p className="text-lg text-slate-600 font-semibold mt-0.5">
-            Keep track of medicines, doctors and bills
+          <p className="text-lg text-sahayak-textMuted mt-0.5">
+            {t('remindersSubtitle')}
           </p>
         </div>
 
-        {/* Big Add Reminder Button */}
+        {/* Add Reminder Button */}
         <button
           type="button"
           onClick={() => navigateTo('add-reminder')}
-          className="w-full sm:w-auto py-3.5 px-6 rounded-2xl bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-black text-xl flex items-center justify-center gap-3 shadow-lifted active:scale-95 transition-all border-2 border-indigo-500 min-h-[56px]"
+          className="w-full sm:w-auto py-3 px-6 rounded-xl bg-sahayak-primary hover:opacity-90 active:opacity-100 text-white font-medium text-lg flex items-center justify-center gap-2 shadow-sm transition-all"
         >
-          <Plus className="w-7 h-7 stroke-[3]" />
+          <Plus className="w-5 h-5" />
           <span>{t('addReminder')}</span>
         </button>
       </div>
 
-      {/* Tabs: Today, Upcoming, All */}
-      <div className="flex bg-slate-200/80 p-1.5 rounded-2xl gap-2">
+      {/* Tabs */}
+      <div className="flex bg-sahayak-bgWarm p-1 rounded-xl gap-1">
         <button
           type="button"
           onClick={() => setActiveTab('today')}
-          className={`flex-1 py-3 px-4 rounded-xl font-black text-lg transition-all ${
+          className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-base transition-all ${
             activeTab === 'today'
-              ? 'bg-white text-indigo-900 shadow-md scale-102'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-white text-sahayak-text shadow-soft'
+              : 'text-sahayak-textLight hover:text-sahayak-textMuted'
           }`}
         >
           {t('tabToday')} ({reminders.filter(r => r.dateLabel.toLowerCase().includes('today')).length})
@@ -78,10 +77,10 @@ export const RemindersPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setActiveTab('upcoming')}
-          className={`flex-1 py-3 px-4 rounded-xl font-black text-lg transition-all ${
+          className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-base transition-all ${
             activeTab === 'upcoming'
-              ? 'bg-white text-indigo-900 shadow-md scale-102'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-white text-sahayak-text shadow-soft'
+              : 'text-sahayak-textLight hover:text-sahayak-textMuted'
           }`}
         >
           {t('tabUpcoming')} ({reminders.filter(r => !r.dateLabel.toLowerCase().includes('today')).length})
@@ -90,10 +89,10 @@ export const RemindersPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setActiveTab('all')}
-          className={`flex-1 py-3 px-4 rounded-xl font-black text-lg transition-all ${
+          className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-base transition-all ${
             activeTab === 'all'
-              ? 'bg-white text-indigo-900 shadow-md scale-102'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-white text-sahayak-text shadow-soft'
+              : 'text-sahayak-textLight hover:text-sahayak-textMuted'
           }`}
         >
           {t('tabAll')} ({reminders.length})
@@ -101,114 +100,104 @@ export const RemindersPage: React.FC = () => {
       </div>
 
       {/* Reminders List */}
-      <div className="space-y-4">
+      <div className="space-y-4 relative">
         {filteredReminders.length === 0 ? (
-          <div className="bg-white rounded-3xl p-10 text-center border-2 border-slate-200 shadow-soft space-y-3">
-            <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-4xl mx-auto">
-              ✨
-            </div>
-            <h3 className="text-2xl font-black text-slate-900">
+          <div className="bg-white rounded-2xl p-10 text-center border border-sahayak-bgWarm shadow-soft space-y-3">
+            <h3 className="text-xl font-medium text-sahayak-text">
               {t('noRemindersToday')}
             </h3>
-            <p className="text-slate-500 font-medium">
-              You can tap "Add Reminder" or speak to Sahayak anytime to add one.
+            <p className="text-sahayak-textMuted">
+              {t('addReminderHint')}
             </p>
           </div>
         ) : (
-          filteredReminders.map((item) => {
-            const isCompleted = item.completed;
-            const categoryBg = {
-              medicine: 'bg-amber-100 text-amber-800',
-              appointment: 'bg-indigo-100 text-indigo-800',
-              bill: 'bg-emerald-100 text-emerald-800',
-              custom: 'bg-slate-100 text-slate-800',
-            }[item.category];
+          <div className="pl-2">
+            {filteredReminders.map((item) => {
+              const isCompleted = item.completed;
 
-            return (
-              <div
-                key={item.id}
-                className={`bg-white rounded-3xl p-5 sm:p-6 border-3 transition-all shadow-soft flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${
-                  isCompleted 
-                    ? 'border-emerald-200 bg-emerald-50/30 opacity-85' 
-                    : 'border-slate-200 hover:border-indigo-300'
-                }`}
-              >
-                {/* Left info & Icon */}
-                <div className="flex items-start gap-4">
-                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shrink-0 shadow-inner ${categoryBg}`}>
-                    {item.icon}
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className={`text-xs font-black uppercase px-2.5 py-0.5 rounded-full ${categoryBg}`}>
-                        {item.category}
-                      </span>
-                      <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
-                        {item.dateLabel}
-                      </span>
+              return (
+                <div
+                  key={item.id}
+                  className={`relative bg-white rounded-2xl p-5 mb-4 shadow-soft flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-sahayak-bgWarm transition-all ${
+                    isCompleted ? 'opacity-75' : ''
+                  }`}
+                >
+                  {/* Left accent bar */}
+                  <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-r-md ${isCompleted ? 'bg-sahayak-sage' : 'bg-sahayak-primary'}`}></div>
+
+                  {/* Info */}
+                  <div className="pl-3 flex-1">
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-lg font-semibold text-sahayak-text flex items-center gap-1.5">
+                          <Clock className="w-4 h-4 text-sahayak-textLight" />
+                          {item.time}
+                        </span>
+                        <span className="text-sm text-sahayak-textLight px-2 py-0.5 rounded bg-sahayak-bgWarm">
+                          {item.dateLabel}
+                        </span>
+                        <span className="text-sm text-sahayak-textLight bg-sahayak-bgWarm px-2 py-0.5 rounded capitalize flex items-center gap-1">
+                          {item.icon} {item.category}
+                        </span>
+                      </div>
+
+                      <h3 className={`text-xl font-medium text-sahayak-text ${isCompleted ? 'line-through text-sahayak-textLight' : ''}`}>
+                        {item.title}
+                      </h3>
+
+                      {item.dosageOrNotes && (
+                        <p className="text-sm text-sahayak-textMuted mt-1">
+                          {item.dosageOrNotes}
+                        </p>
+                      )}
                     </div>
+                  </div>
 
-                    <h3 className={`text-2xl sm:text-3xl font-black text-slate-900 leading-tight ${isCompleted ? 'line-through text-slate-500' : ''}`}>
-                      {item.title}
-                    </h3>
+                  {/* Actions */}
+                  <div className="flex items-center gap-2 w-full sm:w-auto justify-end pt-3 sm:pt-0 border-t sm:border-t-0 border-sahayak-bgWarm">
+                    <VoiceSpeakButton
+                      textToSpeak={`${item.title} at ${item.time}, ${item.dateLabel}. ${item.dosageOrNotes || ''}`}
+                      label=""
+                      size="sm"
+                      variant="outline"
+                    />
 
-                    <p className="text-xl font-bold text-indigo-900 flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-indigo-600" />
-                      <span>{item.time}</span>
-                    </p>
+                    <button
+                      type="button"
+                      onClick={() => handleToggle(item)}
+                      className={`py-2 px-4 rounded-lg font-medium text-sm flex items-center gap-2 transition-all ${
+                        isCompleted
+                          ? 'bg-sahayak-sage text-white'
+                          : 'bg-white text-sahayak-text border border-sahayak-primary text-sahayak-primary hover:bg-sahayak-primaryLight'
+                      }`}
+                    >
+                      {isCompleted ? (
+                        <>
+                          <CheckCircle2 className="w-5 h-5" />
+                          <span>{t('completed')}</span>
+                        </>
+                      ) : (
+                        <>
+                          <Circle className="w-5 h-5" />
+                          <span>{item.category === 'medicine' ? t('markTaken') : t('markDone')}</span>
+                        </>
+                      )}
+                    </button>
 
-                    {item.dosageOrNotes && (
-                      <p className="text-base text-slate-600 font-medium">
-                        {item.dosageOrNotes}
-                      </p>
-                    )}
+                    <button
+                      type="button"
+                      onClick={() => deleteReminder(item.id)}
+                      className="p-2 rounded-lg text-sahayak-textLight hover:text-sahayak-red hover:bg-sahayak-redLight transition-colors"
+                      title={t('deleteReminder')}
+                      aria-label={t('delete')}
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
                   </div>
                 </div>
-
-                {/* Right Actions: Mark Taken / Done, Voice playback, Delete */}
-                <div className="flex items-center gap-2 w-full sm:w-auto justify-end pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-100">
-                  <VoiceSpeakButton
-                    textToSpeak={`${item.title} at ${item.time}, ${item.dateLabel}. ${item.dosageOrNotes || ''}`}
-                    label=""
-                    size="sm"
-                    variant="outline"
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => handleToggle(item)}
-                    className={`py-3 px-5 rounded-2xl font-black text-lg flex items-center gap-2.5 transition-all active:scale-95 shadow-sm ${
-                      isCompleted
-                        ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-                        : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border-2 border-indigo-300'
-                    }`}
-                  >
-                    {isCompleted ? (
-                      <>
-                        <CheckCircle2 className="w-6 h-6 stroke-[3]" />
-                        <span>{t('completed')}</span>
-                      </>
-                    ) : (
-                      <>
-                        <Circle className="w-6 h-6 text-indigo-600" />
-                        <span>{item.category === 'medicine' ? t('markTaken') : t('markDone')}</span>
-                      </>
-                    )}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => deleteReminder(item.id)}
-                    className="p-3 rounded-2xl text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-                    title="Delete reminder"
-                    aria-label="Delete"
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-            );
-          })
+              );
+            })}
+          </div>
         )}
       </div>
     </div>

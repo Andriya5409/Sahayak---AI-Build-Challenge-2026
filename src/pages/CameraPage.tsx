@@ -115,13 +115,13 @@ export const CameraPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 pb-24">
+    <div className="max-w-3xl mx-auto space-y-6 pb-24 bg-sahayak-bg min-h-screen px-4 py-6">
       {/* Title & Instruction */}
       <div className="text-center space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-3xl font-semibold text-sahayak-text tracking-tight">
           {t('showTitle')}
         </h1>
-        <p className="text-xl sm:text-2xl text-slate-600 font-semibold max-w-xl mx-auto">
+        <p className="text-lg sm:text-xl text-sahayak-textMuted max-w-xl mx-auto">
           {t('showInstruction')}
         </p>
       </div>
@@ -131,10 +131,10 @@ export const CameraPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setCameraMode('medicine')}
-          className={`py-3.5 px-3 rounded-2xl font-bold text-base sm:text-lg flex flex-col items-center justify-center gap-1.5 transition-all border-2 ${
+          className={`py-3 px-3 rounded-xl font-medium text-base flex flex-col items-center justify-center gap-1.5 transition-all border ${
             cameraMode === 'medicine'
-              ? 'bg-indigo-600 text-white border-indigo-700 shadow-md scale-102'
-              : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+              ? 'bg-sahayak-primary text-white border-sahayak-primary shadow-soft'
+              : 'bg-white text-sahayak-textLight border-slate-200 hover:bg-slate-50'
           }`}
         >
           <Pill className="w-6 h-6" />
@@ -144,10 +144,10 @@ export const CameraPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setCameraMode('document')}
-          className={`py-3.5 px-3 rounded-2xl font-bold text-base sm:text-lg flex flex-col items-center justify-center gap-1.5 transition-all border-2 ${
+          className={`py-3 px-3 rounded-xl font-medium text-base flex flex-col items-center justify-center gap-1.5 transition-all border ${
             cameraMode === 'document'
-              ? 'bg-indigo-600 text-white border-indigo-700 shadow-md scale-102'
-              : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+              ? 'bg-sahayak-primary text-white border-sahayak-primary shadow-soft'
+              : 'bg-white text-sahayak-textLight border-slate-200 hover:bg-slate-50'
           }`}
         >
           <FileText className="w-6 h-6" />
@@ -157,10 +157,10 @@ export const CameraPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setCameraMode('object')}
-          className={`py-3.5 px-3 rounded-2xl font-bold text-base sm:text-lg flex flex-col items-center justify-center gap-1.5 transition-all border-2 ${
+          className={`py-3 px-3 rounded-xl font-medium text-base flex flex-col items-center justify-center gap-1.5 transition-all border ${
             cameraMode === 'object'
-              ? 'bg-indigo-600 text-white border-indigo-700 shadow-md scale-102'
-              : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+              ? 'bg-sahayak-primary text-white border-sahayak-primary shadow-soft'
+              : 'bg-white text-sahayak-textLight border-slate-200 hover:bg-slate-50'
           }`}
         >
           <Search className="w-6 h-6" />
@@ -173,19 +173,19 @@ export const CameraPage: React.FC = () => {
             setCameraMode('look_around');
             navigateTo('look-around');
           }}
-          className={`py-3.5 px-3 rounded-2xl font-bold text-base sm:text-lg flex flex-col items-center justify-center gap-1.5 transition-all border-2 ${
+          className={`py-3 px-3 rounded-xl font-medium text-base flex flex-col items-center justify-center gap-1.5 transition-all border ${
             cameraMode === 'look_around'
-              ? 'bg-purple-600 text-white border-purple-700 shadow-md scale-102'
-              : 'bg-purple-50 text-purple-900 border-purple-200 hover:bg-purple-100'
+              ? 'bg-sahayak-primary text-white border-sahayak-primary shadow-soft'
+              : 'bg-white text-sahayak-textLight border-slate-200 hover:bg-slate-50'
           }`}
         >
-          <Eye className="w-6 h-6 text-purple-600" />
+          <Eye className="w-6 h-6" />
           <span>{t('modeLookAround')}</span>
         </button>
       </div>
 
       {/* Camera Viewfinder Area */}
-      <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-black border-4 border-slate-800 aspect-[4/3] sm:aspect-[16/10] flex items-center justify-center">
+      <div className="relative rounded-2xl overflow-hidden shadow-warm bg-black border border-slate-800 aspect-[4/3] sm:aspect-[16/10] flex items-center justify-center">
         {useWebcam ? (
           <video
             ref={videoRef}
@@ -205,36 +205,32 @@ export const CameraPage: React.FC = () => {
         {/* Viewfinder Target Framing Overlay */}
         <div className="absolute inset-0 pointer-events-none p-6 sm:p-10 flex flex-col justify-between">
           <div className="flex justify-between items-start">
-            <div className="w-12 h-12 border-t-4 border-l-4 border-amber-400 rounded-tl-xl shadow-sm" />
-            <div className="bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-sm font-semibold flex items-center gap-2 border border-white/20">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+            <div className="w-8 h-8 border-t-2 border-l-2 border-white/50 rounded-tl-lg shadow-sm" />
+            <div className="bg-black/50 backdrop-blur-sm text-white/90 px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 border border-white/10">
+              <span className="w-2 h-2 rounded-full bg-sahayak-primary animate-pulse" />
               <span>{currentSample.tag}</span>
             </div>
-            <div className="w-12 h-12 border-t-4 border-r-4 border-amber-400 rounded-tr-xl shadow-sm" />
+            <div className="w-8 h-8 border-t-2 border-r-2 border-white/50 rounded-tr-lg shadow-sm" />
           </div>
 
           <div className="flex justify-between items-end">
-            <div className="w-12 h-12 border-b-4 border-l-4 border-amber-400 rounded-bl-xl shadow-sm" />
-            <p className="text-white bg-black/70 px-4 py-2 rounded-xl text-base font-bold shadow-md text-center max-w-xs">
-              Hold steady in good light
+            <div className="w-8 h-8 border-b-2 border-l-2 border-white/50 rounded-bl-lg shadow-sm" />
+            <p className="text-white bg-black/50 px-3 py-1.5 rounded-lg text-sm shadow-sm text-center max-w-xs">
+              {t('holdSteady')}
             </p>
-            <div className="w-12 h-12 border-b-4 border-r-4 border-amber-400 rounded-br-xl shadow-sm" />
+            <div className="w-8 h-8 border-b-2 border-r-2 border-white/50 rounded-br-lg shadow-sm" />
           </div>
         </div>
 
         {/* Processing Scanner Overlay */}
         {isProcessing && (
-          <div className="absolute inset-0 bg-indigo-950/85 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center text-white z-20 animate-fade-in">
+          <div className="absolute inset-0 bg-sahayak-primary/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center text-white z-20 animate-fade-in">
             <div className="relative mb-6">
-              <div className="w-24 h-24 rounded-full border-4 border-amber-400 border-t-transparent animate-spin" />
-              <Sparkles className="w-10 h-10 text-amber-300 absolute inset-0 m-auto animate-pulse" />
+              <div className="w-16 h-16 rounded-full border-4 border-white/30 border-t-white animate-spin" />
             </div>
-            <h3 className="text-3xl sm:text-4xl font-black text-amber-300 mb-2">
-              {t('processingVision')}
+            <h3 className="text-2xl font-semibold text-white mb-2">
+              {t('letMeTakeALook')}
             </h3>
-            <p className="text-xl text-indigo-100 font-medium max-w-sm">
-              {t('processingSub')}
-            </p>
           </div>
         )}
       </div>
@@ -245,16 +241,12 @@ export const CameraPage: React.FC = () => {
           type="button"
           onClick={handleCapture}
           disabled={isProcessing}
-          className="w-full sm:w-80 py-5 px-8 rounded-3xl bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-black text-2xl sm:text-3xl flex items-center justify-center gap-4 shadow-xl active:scale-95 transition-all border-4 border-indigo-400/50"
+          className="w-full sm:w-80 py-4 px-8 rounded-2xl bg-sahayak-primary hover:opacity-90 active:opacity-80 text-white font-semibold text-xl flex items-center justify-center gap-3 shadow-warm transition-all"
           aria-label={t('captureButton')}
         >
-          <Camera className="w-9 h-9 stroke-[2.5]" />
+          <Camera className="w-7 h-7" />
           <span>{t('captureButton')}</span>
         </button>
-
-        <p className="text-slate-500 text-sm font-semibold mt-3">
-          Tap once to take picture & read automatically
-        </p>
       </div>
     </div>
   );

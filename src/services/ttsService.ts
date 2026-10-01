@@ -49,13 +49,13 @@ class TTSService {
       utterance.rate = options?.rate ?? 0.88;
       utterance.pitch = options?.pitch ?? 1.0;
       utterance.volume = options?.volume ?? 1.0;
-      utterance.lang = options?.lang === 'ml' ? 'ml-IN' : 'en-IN';
+      utterance.lang = 'en-IN';
 
       // Pick a warm natural voice if available
       const voices = window.speechSynthesis.getVoices();
       if (voices && voices.length > 0) {
         const preferredVoice = voices.find(v => 
-          (options?.lang === 'ml' ? v.lang.includes('ml') : (v.lang.includes('en-IN') || v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('India')))
+          v.lang.includes('en-IN') || v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('India')
         ) || voices[0];
         if (preferredVoice) utterance.voice = preferredVoice;
       }

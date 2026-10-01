@@ -17,7 +17,7 @@ export const VoiceSpeakButton: React.FC<VoiceSpeakButtonProps> = ({
   size = 'md',
   variant = 'secondary',
 }) => {
-  const { speakText, stopSpeaking, isSpeaking } = useApp();
+  const { speakText, stopSpeaking, isSpeaking, t } = useApp();
   const [localActive, setLocalActive] = useState(false);
 
   const handleToggle = (e: React.MouseEvent) => {
@@ -57,8 +57,8 @@ export const VoiceSpeakButton: React.FC<VoiceSpeakButtonProps> = ({
       type="button"
       onClick={handleToggle}
       className={`inline-flex items-center justify-center gap-3 rounded-2xl transition-all duration-200 active:scale-95 font-semibold ${sizeClasses} ${variantClasses} ${className}`}
-      aria-label={label || 'Hear text out loud'}
-      title="Hear this read out loud in a warm, clear voice"
+      aria-label={label || t('hearTextOutLoud')}
+      title={t('hearThisReadOutLoud')}
     >
       {isCurrentlyPlaying ? (
         <>
@@ -67,13 +67,13 @@ export const VoiceSpeakButton: React.FC<VoiceSpeakButtonProps> = ({
             <span className="w-1.5 h-6 bg-current rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
             <span className="w-1.5 h-3 bg-current rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
           </div>
-          <span>{label || 'Speaking...'}</span>
+          <span>{label || t('speaking')}</span>
           <VolumeX className="w-5 h-5 ml-1 opacity-75" />
         </>
       ) : (
         <>
           <Volume2 className="w-6 h-6 text-indigo-600 group-hover:scale-110 transition-transform" />
-          <span>{label || 'Hear this'}</span>
+          <span>{label || t('hearThis')}</span>
         </>
       )}
     </button>

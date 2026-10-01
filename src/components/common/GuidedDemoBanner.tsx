@@ -3,19 +3,19 @@ import { Sparkles, Play, ArrowRight, CheckCircle2, RefreshCw } from 'lucide-reac
 import { useApp } from '../../context/AppContext';
 
 export const GuidedDemoBanner: React.FC = () => {
-  const { currentScreen, navigateTo, isDemoActive, setIsDemoActive } = useApp();
+  const { currentScreen, navigateTo, isDemoActive, setIsDemoActive, t } = useApp();
 
   const demoSteps = [
-    { id: 'home', label: '1. Home Overview', screen: 'home' },
-    { id: 'voice', label: '2. Voice: "Remind Medicine 8 PM"', screen: 'voice' },
-    { id: 'reminders', label: '3. Reminders List', screen: 'reminders' },
-    { id: 'camera', label: '4. Camera Scan', screen: 'camera' },
-    { id: 'medicine', label: '5. Medicine Result & TTS', screen: 'vision-medicine' },
-    { id: 'document', label: '6. Bill Explanation', screen: 'vision-document' },
-    { id: 'lookaround', label: '7. Look Around', screen: 'look-around' },
-    { id: 'family', label: '8. Call Family', screen: 'family' },
-    { id: 'caregiver', label: '9. Caregiver Portal', screen: 'caregiver' },
-    { id: 'emergency', label: '10. Emergency SOS', screen: 'emergency' },
+    { id: 'home', label: t('demoStep1'), screen: 'home' },
+    { id: 'voice', label: t('demoStep2'), screen: 'voice' },
+    { id: 'reminders', label: t('demoStep3'), screen: 'reminders' },
+    { id: 'camera', label: t('demoStep4'), screen: 'camera' },
+    { id: 'medicine', label: t('demoStep5'), screen: 'vision-medicine' },
+    { id: 'document', label: t('demoStep6'), screen: 'vision-document' },
+    { id: 'lookaround', label: t('demoStep7'), screen: 'look-around' },
+    { id: 'family', label: t('demoStep8'), screen: 'family' },
+    { id: 'caregiver', label: t('demoStep9'), screen: 'caregiver' },
+    { id: 'emergency', label: t('demoStep10'), screen: 'emergency' },
   ];
 
   if (!isDemoActive) {
@@ -23,8 +23,8 @@ export const GuidedDemoBanner: React.FC = () => {
       <aside aria-label="Demo tour banner" className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white px-4 py-2 text-sm shadow-md flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-amber-300 animate-spin" style={{ animationDuration: '6s' }} />
-          <span className="font-semibold">AI Hackathon Demo Mode:</span>
-          <span className="text-indigo-200 hidden sm:inline">Explore the complete voice, vision & caregiver companion flow</span>
+          <span className="font-semibold">{t('aiHackathonDemoMode')}</span>
+          <span className="text-indigo-200 hidden sm:inline">{t('exploreDemoFlow')}</span>
         </div>
         <button
           type="button"
@@ -32,7 +32,7 @@ export const GuidedDemoBanner: React.FC = () => {
           className="bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold px-3 py-1 rounded-full text-xs flex items-center gap-1.5 transition-transform active:scale-95"
         >
           <Play className="w-3.5 h-3.5 fill-slate-900" />
-          <span>Launch Demo Bar</span>
+          <span>{t('launchDemoBar')}</span>
         </button>
       </aside>
     );
@@ -44,7 +44,7 @@ export const GuidedDemoBanner: React.FC = () => {
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-xs font-bold uppercase tracking-wider text-indigo-300">
-            Interactive Demo Tour:
+            {t('interactiveDemoTour')}
           </span>
         </div>
 
@@ -75,7 +75,7 @@ export const GuidedDemoBanner: React.FC = () => {
           onClick={() => setIsDemoActive(false)}
           className="text-xs text-slate-400 hover:text-white px-2 py-1 rounded hover:bg-slate-800 ml-auto"
         >
-          ✕ Close
+          ✕ {t('close')}
         </button>
       </div>
     </aside>

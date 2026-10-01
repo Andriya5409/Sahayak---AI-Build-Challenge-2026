@@ -62,22 +62,22 @@ const MainLayout: React.FC = () => {
   const showBottomNav = currentScreen !== 'calling';
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-indigo-200">
-      {/* 1. Interactive Hackathon Demo Stepper Banner */}
+    <div className="min-h-screen flex flex-col bg-sahayak-bg text-sahayak-text selection:bg-sahayak-primaryLight">
+      {/* 1. Interactive Demo Stepper Banner */}
       <GuidedDemoBanner />
 
       {/* 2. Top Header Navigation */}
       <Header />
 
       {/* 3. Main Content Container */}
-      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-20">
+      <main className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 pt-6 pb-24">
         <ScreenRouter />
       </main>
 
-      {/* 4. Large Touch Bottom Navigation */}
+      {/* 4. Bottom Navigation */}
       {showBottomNav && <BottomNav />}
 
-      {/* 5. Global High-Contrast Confirmation Modal */}
+      {/* 5. Global Confirmation Modal */}
       <ConfirmModal />
     </div>
   );

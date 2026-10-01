@@ -49,8 +49,7 @@ interface AppContextType {
   // User & Accessibility
   user: UserProfile;
   updateUser: (updates: Partial<UserProfile>) => void;
-  t: (key: keyof typeof translations['en']) => string;
-  setLanguage: (lang: Language) => void;
+  t: (key: any, params?: Record<string, string | number>) => string;
   setTextSize: (size: TextSize) => void;
   setHighContrast: (enabled: boolean) => void;
   setSimplifiedMode: (enabled: boolean) => void;
@@ -162,6 +161,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // Sync user changes to localStorage and body classes
   useEffect(() => {
     localStorage.setItem('sahayak_user', JSON.stringify(user));
+    document.documentElement.lang = user.language;
     
     // Apply High Contrast class to root
     if (user.highContrast) {
@@ -197,14 +197,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const updateUser = (updates: Partial<UserProfile>) => {
     setUser((prev) => ({ ...prev, ...updates }));
   };
-
-  const setLanguage = (language: Language) => updateUser({ language });
   const setTextSize = (textSize: TextSize) => updateUser({ textSize });
   const setHighContrast = (highContrast: boolean) => updateUser({ highContrast });
   const setSimplifiedMode = (simplifiedMode: boolean) => updateUser({ simplifiedMode });
 
-  const t = (key: keyof typeof translations['en']): string => {
-    return getTranslation(user.language, key);
+  const t = (key: any, params?: Record<string, string | number>): string => {
+    return getTranslation(user.language, key, params);
   };
 
   const navigateTo = (screen: ScreenType, options?: { replace?: boolean; payload?: any }) => {
@@ -379,7 +377,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         user,
         updateUser,
         t,
-        setLanguage,
         setTextSize,
         setHighContrast,
         setSimplifiedMode,

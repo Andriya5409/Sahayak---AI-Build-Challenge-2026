@@ -23,15 +23,11 @@ export const FamilyPage: React.FC = () => {
   return (
     <div className="max-w-3xl mx-auto space-y-6 pb-24 animate-fade-in">
       {/* Header */}
-      <div className="text-center space-y-1">
-        <span className="inline-flex items-center gap-1.5 bg-rose-100 text-rose-900 font-extrabold text-sm px-4 py-1 rounded-full">
-          <Heart className="w-4 h-4 text-rose-600 fill-rose-500" />
-          <span>Trusted Circle</span>
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+      <div className="space-y-1">
+        <h1 className="text-3xl font-semibold text-sahayak-text">
           {t('familyTitle')}
         </h1>
-        <p className="text-xl text-slate-600 font-semibold">
+        <p className="text-lg text-sahayak-textMuted">
           {t('familySubtitle')}
         </p>
       </div>
@@ -41,45 +37,45 @@ export const FamilyPage: React.FC = () => {
         {contacts.map((contact) => (
           <div
             key={contact.id}
-            className="bg-white rounded-3xl p-6 sm:p-7 border-3 border-slate-200 hover:border-indigo-300 shadow-soft hover:shadow-lifted transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
+            className="bg-white rounded-2xl p-5 sm:p-6 border border-sahayak-bgWarm shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
           >
             {/* Contact Avatar & Information */}
             <div className="flex items-center gap-4 sm:gap-5">
-              <div className={`w-20 h-20 rounded-3xl flex items-center justify-center text-4xl shrink-0 shadow-inner ${contact.avatarBg}`}>
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl shrink-0 ${contact.avatarBg}`}>
                 {contact.avatar}
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="bg-slate-100 text-slate-700 font-black text-xs uppercase px-2.5 py-0.5 rounded-full">
+                  <span className="text-sahayak-textMuted font-medium text-sm">
                     {contact.relation}
                   </span>
                   {contact.isCaregiver && (
-                    <span className="bg-emerald-100 text-emerald-800 font-bold text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                      <span>Nurse Support</span>
+                    <span className="bg-sahayak-sageLight text-sahayak-sage font-medium text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <ShieldCheck className="w-3 h-3" />
+                      <span>{t('nurseSupport')}</span>
                     </span>
                   )}
                 </div>
 
-                <h3 className="text-3xl font-black text-slate-900 mt-0.5">
+                <h3 className="text-2xl font-semibold text-sahayak-text mt-0.5">
                   {contact.name}
                 </h3>
 
-                <p className="text-sm font-semibold text-slate-500 mt-1 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <p className="text-sm text-sahayak-textLight mt-1 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-sahayak-sage" />
                   <span>{contact.status}</span>
                 </p>
               </div>
             </div>
 
-            {/* Big Call Button */}
+            {/* Call Button */}
             <button
               type="button"
               onClick={() => handleCall(contact)}
-              className="w-full sm:w-auto py-4 px-8 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-black text-2xl flex items-center justify-center gap-3 shadow-lifted active:scale-95 transition-all border-2 border-emerald-500 min-h-[64px]"
+              className="w-full sm:w-auto py-3 px-6 rounded-xl bg-sahayak-sage hover:opacity-90 active:opacity-100 text-white font-medium text-lg flex items-center justify-center gap-2 shadow-sm transition-all"
               aria-label={`Call ${contact.name}`}
             >
-              <Phone className="w-7 h-7 stroke-[2.5]" />
+              <Phone className="w-5 h-5" />
               <span>{t('callButton')}</span>
             </button>
           </div>
@@ -87,8 +83,9 @@ export const FamilyPage: React.FC = () => {
       </div>
 
       {/* Safety Notice */}
-      <div className="bg-slate-100 rounded-2xl p-4 text-center text-sm font-semibold text-slate-600 border border-slate-200">
-        🛡️ Calls are connected directly. You will always be asked to confirm before dialing starts.
+      <div className="bg-sahayak-bgWarm rounded-xl p-4 text-sm text-sahayak-textMuted flex items-center gap-2">
+        <ShieldCheck className="w-5 h-5 text-sahayak-textLight" />
+        <span>{t('callSafetyNotice')}</span>
       </div>
     </div>
   );

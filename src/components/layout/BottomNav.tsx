@@ -40,10 +40,10 @@ export const BottomNav: React.FC = () => {
 
   return (
     <nav 
-      aria-label="Main Navigation"
-      className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t-2 border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] py-1.5 px-2 sm:px-4"
+      aria-label={t('mainNavigation')}
+      className="fixed bottom-0 left-0 right-0 z-40 bg-sahayak-bg/95 backdrop-blur-md border-t border-sahayak-bgWarm pb-safe"
     >
-      <div className="max-w-xl mx-auto flex items-center justify-around">
+      <div className="max-w-xl mx-auto flex items-center justify-around px-2 py-1">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentScreen === item.id || 
@@ -57,17 +57,18 @@ export const BottomNav: React.FC = () => {
                 key={item.id}
                 type="button"
                 onClick={() => navigateTo(item.id)}
-                className={`relative -top-3 flex flex-col items-center justify-center transition-transform active:scale-95 group focus:outline-none focus:ring-4 focus:ring-indigo-300 rounded-2xl`}
+                className="flex flex-col items-center justify-center min-h-[60px] min-w-[64px] transition-transform active:scale-95 focus:outline-none relative group"
                 aria-label={item.label}
               >
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lifted transition-all ${
+                {isActive && <div className="absolute top-0 w-1.5 h-1.5 rounded-full bg-sahayak-primary mb-1"></div>}
+                <div className={`mt-2.5 flex items-center justify-center rounded-full p-2.5 transition-colors ${
                   isActive 
-                    ? 'bg-indigo-700 ring-4 ring-indigo-300 scale-105' 
-                    : 'bg-indigo-600 hover:bg-indigo-700'
+                    ? 'bg-sahayak-primary text-white' 
+                    : 'bg-sahayak-bgWarm text-sahayak-text group-hover:bg-sahayak-bgWarm/80'
                 }`}>
-                  <Mic className="w-9 h-9 stroke-[2.5] animate-pulse" />
+                  <Mic className={`w-6 h-6 ${isActive ? 'stroke-[2.5]' : 'stroke-[2]'}`} />
                 </div>
-                <span className={`text-sm font-extrabold mt-1 ${isActive ? 'text-indigo-900' : 'text-slate-700'}`}>
+                <span className={`text-[10px] sm:text-xs mt-1 font-medium ${isActive ? 'text-sahayak-primary' : 'text-sahayak-textMuted'}`}>
                   {item.label}
                 </span>
               </button>
@@ -79,15 +80,12 @@ export const BottomNav: React.FC = () => {
               key={item.id}
               type="button"
               onClick={() => navigateTo(item.id)}
-              className={`flex flex-col items-center justify-center py-2 px-3 rounded-2xl min-w-[64px] min-h-[58px] transition-all active:scale-95 ${
-                isActive
-                  ? 'text-indigo-800 font-black bg-indigo-50 border-2 border-indigo-200 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 font-bold border-2 border-transparent'
-              }`}
+              className="flex flex-col items-center justify-center min-w-[64px] min-h-[60px] transition-transform active:scale-95 relative"
               aria-label={item.label}
             >
-              <Icon className={`w-7 h-7 mb-1 transition-transform ${isActive ? 'stroke-[2.8] scale-110 text-indigo-700' : 'stroke-[2]'}`} />
-              <span className="text-xs sm:text-sm tracking-tight leading-tight">
+              {isActive && <div className="absolute top-1 w-1.5 h-1.5 rounded-full bg-sahayak-primary"></div>}
+              <Icon className={`w-6 h-6 mt-2 mb-1 transition-colors ${isActive ? 'text-sahayak-primary stroke-[2.5]' : 'text-sahayak-textMuted stroke-[2]'}`} />
+              <span className={`text-[10px] sm:text-xs font-medium transition-colors ${isActive ? 'text-sahayak-primary' : 'text-sahayak-textMuted'}`}>
                 {item.label}
               </span>
             </button>

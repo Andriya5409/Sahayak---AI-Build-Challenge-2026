@@ -11,18 +11,16 @@ import {
   ShieldCheck, 
   Users, 
   Check, 
-  Sparkles,
   ArrowLeft
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { TextSize, Language, SpeechSpeed, VoiceGender } from '../types';
+import { TextSize, SpeechSpeed, VoiceGender } from '../types';
 
 export const SettingsPage: React.FC = () => {
   const { 
     user, 
-    updateUser, 
-    setLanguage, 
-    setTextSize, 
+    updateUser,
+      setTextSize, 
     setHighContrast, 
     setSimplifiedMode, 
     speakText, 
@@ -31,9 +29,7 @@ export const SettingsPage: React.FC = () => {
   } = useApp();
 
   const handleTestVoice = () => {
-    const greeting = user.language === 'ml' 
-      ? 'നമസ്കാരം അമ്മ, സഹായകിന്റെ ശബ്ദം ഇപ്പോൾ വ്യക്തമായി കേൾക്കുന്നുണ്ടോ?' 
-      : 'Hello Amma, this is your Sahayak assistant speaking clearly and gently.';
+    const greeting = 'Hello Amma, this is your Sahayak assistant speaking clearly and gently.';
     speakText(greeting);
   };
 
@@ -44,67 +40,29 @@ export const SettingsPage: React.FC = () => {
         <button
           type="button"
           onClick={() => navigateTo('home')}
-          className="flex items-center gap-2 text-slate-700 font-bold text-lg hover:text-indigo-900 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl transition-all"
+          className="flex items-center gap-2 text-sahayak-textMuted font-semibold text-lg hover:text-sahayak-text bg-sahayak-bgWarm hover:bg-sahayak-primaryLight px-4 py-2 rounded-xl transition-all"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>{t('back')}</span>
         </button>
 
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-sahayak-text">
           {t('settingsTitle')}
         </h1>
       </div>
 
       <div className="space-y-5">
-        {/* 1. Language Option */}
-        <div className="bg-white rounded-3xl p-6 border-3 border-slate-200 shadow-soft space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center">
-              <Globe className="w-6 h-6" />
-            </div>
-            <div>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900">
-                {t('languageLabel')}
-              </h2>
-              <p className="text-sm text-slate-500 font-medium">Choose your primary language</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 pt-2">
-            {[
-              { id: 'en' as Language, label: 'English', sub: 'Default' },
-              { id: 'ml' as Language, label: 'മലയാളം', sub: 'Malayalam' },
-            ].map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setLanguage(item.id)}
-                className={`p-4 rounded-2xl font-bold text-lg flex flex-col items-center justify-center border-2 transition-all ${
-                  user.language === item.id
-                    ? 'bg-indigo-600 text-white border-indigo-700 shadow-md scale-102 font-black'
-                    : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
-                }`}
-              >
-                <span>{item.label}</span>
-                <span className={`text-xs ${user.language === item.id ? 'text-indigo-200' : 'text-slate-500'}`}>
-                  {item.sub}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* 2. Text Size (Elder accessibility) */}
-        <div className="bg-white rounded-3xl p-6 border-3 border-slate-200 shadow-soft space-y-3">
+        <div className="bg-white rounded-3xl p-6 border border-sahayak-bgWarm shadow-soft space-y-3">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-sahayak-primaryLight text-sahayak-primary flex items-center justify-center">
               <Type className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+              <h2 className="text-xl sm:text-2xl font-semibold text-sahayak-text">
                 {t('textSizeLabel')}
               </h2>
-              <p className="text-sm text-slate-500 font-medium">Makes text larger and easier to read</p>
+              <p className="text-sm text-sahayak-textMuted font-medium">{t('textSizeDesc')}</p>
             </div>
           </div>
 
@@ -118,10 +76,10 @@ export const SettingsPage: React.FC = () => {
                 key={item.id}
                 type="button"
                 onClick={() => setTextSize(item.id)}
-                className={`py-3.5 px-2 rounded-2xl font-bold text-base flex flex-col items-center justify-center border-2 transition-all ${
+                className={`py-3.5 px-2 rounded-2xl font-semibold text-base flex flex-col items-center justify-center border transition-all ${
                   user.textSize === item.id
-                    ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-md scale-102 font-black'
-                    : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
+                    ? 'bg-sahayak-primary text-white border-sahayak-primary shadow-soft scale-102'
+                    : 'bg-sahayak-bgWarm text-sahayak-text border-transparent hover:bg-sahayak-primaryLight'
                 }`}
               >
                 <span className="text-xl mb-0.5">{item.preview}</span>
@@ -132,36 +90,36 @@ export const SettingsPage: React.FC = () => {
         </div>
 
         {/* 3. Speech Speed */}
-        <div className="bg-white rounded-3xl p-6 border-3 border-slate-200 shadow-soft space-y-3">
+        <div className="bg-white rounded-3xl p-6 border border-sahayak-bgWarm shadow-soft space-y-3">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-sahayak-primaryLight text-sahayak-primary flex items-center justify-center">
               <Gauge className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+              <h2 className="text-xl sm:text-2xl font-semibold text-sahayak-text">
                 {t('voiceSpeedLabel')}
               </h2>
-              <p className="text-sm text-slate-500 font-medium">Controls how fast Sahayak speaks to you</p>
+              <p className="text-sm text-sahayak-textMuted font-medium">{t('voiceSpeedDesc')}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3 pt-2">
             {[
-              { id: 'slow' as SpeechSpeed, label: t('speedSlow'), sub: 'Recommended for Amma' },
-              { id: 'normal' as SpeechSpeed, label: t('speedNormal'), sub: 'Standard cadence' },
+              { id: 'slow' as SpeechSpeed, label: t('speedSlow'), sub: t('recommendedForAmma') },
+              { id: 'normal' as SpeechSpeed, label: t('speedNormal'), sub: t('standardCadence') },
             ].map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => updateUser({ speechSpeed: item.id })}
-                className={`p-4 rounded-2xl font-bold text-lg flex flex-col items-center justify-center border-2 transition-all ${
+                className={`p-4 rounded-2xl font-semibold text-lg flex flex-col items-center justify-center border transition-all ${
                   user.speechSpeed === item.id
-                    ? 'bg-purple-600 text-white border-purple-700 shadow-md scale-102 font-black'
-                    : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
+                    ? 'bg-sahayak-primary text-white border-sahayak-primary shadow-soft scale-102'
+                    : 'bg-sahayak-bgWarm text-sahayak-text border-transparent hover:bg-sahayak-primaryLight'
                 }`}
               >
                 <span>{item.label}</span>
-                <span className={`text-xs ${user.speechSpeed === item.id ? 'text-purple-200' : 'text-slate-500'}`}>
+                <span className={`text-xs ${user.speechSpeed === item.id ? 'text-white/80' : 'text-sahayak-textLight'}`}>
                   {item.sub}
                 </span>
               </button>
@@ -172,44 +130,44 @@ export const SettingsPage: React.FC = () => {
           <button
             type="button"
             onClick={handleTestVoice}
-            className="w-full mt-2 py-3 px-4 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 border-2 border-purple-200 font-bold text-base flex items-center justify-center gap-2 active:scale-98 transition-all"
+            className="w-full mt-2 py-3 px-4 rounded-xl bg-sahayak-primaryLight hover:bg-sahayak-primary hover:text-white text-sahayak-primary font-semibold text-base flex items-center justify-center gap-2 active:scale-98 transition-all"
           >
-            <Volume2 className="w-5 h-5 text-purple-700" />
+            <Volume2 className="w-5 h-5" />
             <span>{t('testVoiceBtn')}</span>
           </button>
         </div>
 
         {/* 4. Assistant Voice Gender */}
-        <div className="bg-white rounded-3xl p-6 border-3 border-slate-200 shadow-soft space-y-3">
+        <div className="bg-white rounded-3xl p-6 border border-sahayak-bgWarm shadow-soft space-y-3">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-sahayak-primaryLight text-sahayak-primary flex items-center justify-center">
               <Volume2 className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+              <h2 className="text-xl sm:text-2xl font-semibold text-sahayak-text">
                 {t('voiceGenderLabel')}
               </h2>
-              <p className="text-sm text-slate-500 font-medium">Assistant tone and voice personality</p>
+              <p className="text-sm text-sahayak-textMuted font-medium">{t('voiceGenderDesc')}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3 pt-2">
             {[
-              { id: 'female' as VoiceGender, label: t('voiceFemale'), sub: 'Calm & Warm' },
-              { id: 'male' as VoiceGender, label: t('voiceMale'), sub: 'Gentle & Clear' },
+              { id: 'female' as VoiceGender, label: t('voiceFemale'), sub: t('calmWarm') },
+              { id: 'male' as VoiceGender, label: t('voiceMale'), sub: t('gentleClear') },
             ].map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => updateUser({ voiceGender: item.id })}
-                className={`p-4 rounded-2xl font-bold text-lg flex flex-col items-center justify-center border-2 transition-all ${
+                className={`p-4 rounded-2xl font-semibold text-lg flex flex-col items-center justify-center border transition-all ${
                   user.voiceGender === item.id
-                    ? 'bg-rose-600 text-white border-rose-700 shadow-md scale-102 font-black'
-                    : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
+                    ? 'bg-sahayak-primary text-white border-sahayak-primary shadow-soft scale-102'
+                    : 'bg-sahayak-bgWarm text-sahayak-text border-transparent hover:bg-sahayak-primaryLight'
                 }`}
               >
                 <span>{item.label}</span>
-                <span className={`text-xs ${user.voiceGender === item.id ? 'text-rose-200' : 'text-slate-500'}`}>
+                <span className={`text-xs ${user.voiceGender === item.id ? 'text-white/80' : 'text-sahayak-textLight'}`}>
                   {item.sub}
                 </span>
               </button>
@@ -218,54 +176,54 @@ export const SettingsPage: React.FC = () => {
         </div>
 
         {/* 5. Accessibility Toggles: High Contrast & Simplified View */}
-        <div className="bg-white rounded-3xl p-6 border-3 border-slate-200 shadow-soft space-y-4">
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900">
-            Vision & Display Aids
+        <div className="bg-white rounded-3xl p-6 border border-sahayak-bgWarm shadow-soft space-y-4">
+          <h2 className="text-xl sm:text-2xl font-semibold text-sahayak-text">
+            {t('visionDisplayAids')}
           </h2>
 
           {/* High Contrast Toggle */}
-          <div className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <div className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-sahayak-bgWarm border border-sahayak-primaryLight">
             <div>
-              <p className="text-xl font-black text-slate-900">
+              <p className="text-lg font-semibold text-sahayak-text">
                 {t('highContrastLabel')}
               </p>
-              <p className="text-sm text-slate-500 font-medium">
-                Deep black & vivid yellow for low vision
+              <p className="text-sm text-sahayak-textMuted font-medium">
+                {t('highContrastDesc')}
               </p>
             </div>
             <button
               type="button"
               onClick={() => setHighContrast(!user.highContrast)}
               className={`w-16 h-10 rounded-full transition-colors relative flex items-center px-1 ${
-                user.highContrast ? 'bg-amber-500' : 'bg-slate-300'
+                user.highContrast ? 'bg-sahayak-primary' : 'bg-sahayak-textLight'
               }`}
               aria-label="Toggle High Contrast"
             >
-              <div className={`w-8 h-8 rounded-full bg-white shadow-md transform transition-transform ${
+              <div className={`w-8 h-8 rounded-full bg-white shadow-soft transform transition-transform ${
                 user.highContrast ? 'translate-x-6' : 'translate-x-0'
               }`} />
             </button>
           </div>
 
           {/* Simplified Elder Mode Toggle */}
-          <div className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <div className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-sahayak-bgWarm border border-sahayak-primaryLight">
             <div>
-              <p className="text-xl font-black text-slate-900">
+              <p className="text-lg font-semibold text-sahayak-text">
                 {t('simplifiedModeLabel')}
               </p>
-              <p className="text-sm text-slate-500 font-medium">
-                Hides secondary controls for maximum simplicity
+              <p className="text-sm text-sahayak-textMuted font-medium">
+                {t('simplifiedModeDesc')}
               </p>
             </div>
             <button
               type="button"
               onClick={() => setSimplifiedMode(!user.simplifiedMode)}
               className={`w-16 h-10 rounded-full transition-colors relative flex items-center px-1 ${
-                user.simplifiedMode ? 'bg-indigo-600' : 'bg-slate-300'
+                user.simplifiedMode ? 'bg-sahayak-primary' : 'bg-sahayak-textLight'
               }`}
               aria-label="Toggle Simplified View"
             >
-              <div className={`w-8 h-8 rounded-full bg-white shadow-md transform transition-transform ${
+              <div className={`w-8 h-8 rounded-full bg-white shadow-soft transform transition-transform ${
                 user.simplifiedMode ? 'translate-x-6' : 'translate-x-0'
               }`} />
             </button>
@@ -273,26 +231,26 @@ export const SettingsPage: React.FC = () => {
         </div>
 
         {/* 6. Family Circle Portal Navigation */}
-        <div className="bg-emerald-50 border-3 border-emerald-300 rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="bg-sahayak-sageLight rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-2xl shrink-0 shadow-md">
+            <div className="w-14 h-14 rounded-2xl bg-sahayak-sage text-white flex items-center justify-center text-2xl shrink-0 shadow-soft">
               👨‍👩‍👧
             </div>
             <div>
-              <h3 className="text-2xl font-black text-emerald-950">
-                Caregiver Circle Portal
+              <h3 className="text-xl font-semibold text-sahayak-text">
+                {t('caregiverPortalTitle')}
               </h3>
-              <p className="text-sm text-emerald-800 font-medium">
-                View what daughter Ananya & nurse Suresh can see
+              <p className="text-sm text-sahayak-textMuted font-medium">
+                {t('caregiverPortalDesc')}
               </p>
             </div>
           </div>
           <button
             type="button"
             onClick={() => navigateTo('caregiver')}
-            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-2xl text-lg shadow-md active:scale-95"
+            className="w-full sm:w-auto bg-sahayak-sage hover:bg-opacity-90 text-white font-semibold py-3.5 px-6 rounded-2xl text-lg shadow-soft active:scale-95 transition-all"
           >
-            Open Portal
+            {t('openPortal')}
           </button>
         </div>
       </div>

@@ -41,39 +41,39 @@ export const VisionResultPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 pb-24 animate-fade-in">
+    <div className="max-w-3xl mx-auto space-y-6 pb-24 animate-fade-in bg-sahayak-bg min-h-screen px-4 py-6">
       {/* Top Header Badge */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 bg-emerald-100 text-emerald-950 px-4 py-1.5 rounded-full font-bold text-sm">
-          <CheckCircle className="w-5 h-5 text-emerald-600" />
-          <span>{t('foundSomething')}</span>
+        <div className="flex items-center gap-2 bg-sahayak-sageLight text-sahayak-sage px-4 py-1.5 rounded-full font-medium text-sm">
+          <CheckCircle className="w-5 h-5" />
+          <span>{t('medicineIdentified')}</span>
         </div>
 
         <button
           type="button"
           onClick={() => navigateTo('camera')}
-          className="text-slate-600 hover:text-slate-900 font-bold text-sm flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-100"
+          className="text-sahayak-textLight hover:text-sahayak-text font-medium text-sm flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-50 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Retake photo</span>
+          <span>{t('retakePhoto')}</span>
         </button>
       </div>
 
       {/* Main Medicine Card */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border-3 border-slate-200 shadow-lifted space-y-6">
+      <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-warm space-y-8">
         {/* Title and Category */}
-        <div className="flex items-start gap-4 sm:gap-6 border-b border-slate-100 pb-6">
-          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-4xl sm:text-5xl shrink-0 shadow-inner">
-            💊
+        <div className="flex items-start gap-4 sm:gap-6 border-b border-slate-50 pb-6">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-sahayak-primaryLight text-sahayak-primary flex items-center justify-center shrink-0 shadow-sm">
+            <Pill className="w-8 h-8" />
           </div>
           <div>
-            <span className="bg-indigo-50 text-indigo-800 font-extrabold text-xs sm:text-sm px-3 py-1 rounded-full uppercase tracking-wider">
+            <span className="text-sahayak-textMuted font-medium text-xs sm:text-sm px-2 py-1 bg-slate-50 rounded-md">
               {med.category}
             </span>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mt-1">
+            <h1 className="text-3xl font-bold text-sahayak-text mt-2">
               {med.name}
             </h1>
-            <p className="text-lg sm:text-xl text-slate-500 font-semibold mt-0.5">
+            <p className="text-lg text-sahayak-textLight font-normal mt-1">
               {med.genericName}
             </p>
           </div>
@@ -81,38 +81,38 @@ export const VisionResultPage: React.FC = () => {
 
         {/* Key Information Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-            <span className="text-xs font-black text-slate-500 uppercase tracking-wider block mb-1">
+          <div className="p-4 rounded-xl border border-slate-100 bg-sahayak-bgWarm">
+            <span className="text-sm text-sahayak-textLight block mb-1">
               {t('strength')}
             </span>
-            <p className="text-2xl font-black text-slate-900">
+            <p className="text-xl font-medium text-sahayak-text">
               {med.strength}
             </p>
           </div>
 
-          <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-            <span className="text-xs font-black text-slate-500 uppercase tracking-wider block mb-1">
+          <div className="p-4 rounded-xl border border-slate-100 bg-sahayak-bgWarm">
+            <span className="text-sm text-sahayak-textLight block mb-1">
               {t('commonUse')}
             </span>
-            <p className="text-lg font-bold text-slate-800 leading-snug">
+            <p className="text-xl font-medium text-sahayak-text">
               {med.commonUse}
             </p>
           </div>
         </div>
 
         {/* How to take instructions */}
-        <div className="bg-indigo-50/60 p-5 sm:p-6 rounded-2xl border-2 border-indigo-100 space-y-3">
-          <div className="flex items-center gap-2 text-indigo-900 font-black text-xl">
-            <Clock className="w-6 h-6 text-indigo-700" />
+        <div className="bg-sahayak-primaryLight p-5 sm:p-6 rounded-2xl space-y-3">
+          <div className="flex items-center gap-2 text-sahayak-primary font-semibold text-lg">
+            <Clock className="w-5 h-5" />
             <span>{t('howToTake')}</span>
           </div>
-          <p className="text-xl font-bold text-slate-900 leading-relaxed">
+          <p className="text-lg text-sahayak-text leading-relaxed">
             {med.dosageAdvice}
           </p>
-          <ul className="space-y-2 pt-2 border-t border-indigo-200/60">
+          <ul className="space-y-2 pt-3 border-t border-sahayak-primary/10">
             {med.instructions.map((inst, i) => (
-              <li key={i} className="flex items-center gap-2.5 text-base sm:text-lg font-semibold text-slate-700">
-                <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+              <li key={i} className="flex items-start gap-2.5 text-base text-sahayak-textMuted">
+                <div className="w-1.5 h-1.5 rounded-full bg-sahayak-primary mt-2 shrink-0" />
                 <span>{inst}</span>
               </li>
             ))}
@@ -120,13 +120,13 @@ export const VisionResultPage: React.FC = () => {
         </div>
 
         {/* Important Doctor Disclaimer */}
-        <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-5 flex items-start gap-4 text-amber-950">
-          <AlertTriangle className="w-8 h-8 text-amber-600 shrink-0 mt-0.5" />
+        <div className="bg-sahayak-roseLight p-5 rounded-2xl flex items-start gap-4 text-sahayak-rose">
+          <Info className="w-6 h-6 shrink-0 mt-0.5" />
           <div>
-            <h4 className="font-black text-lg sm:text-xl text-amber-900">
+            <h4 className="font-semibold text-lg">
               {t('disclaimerTitle')}
             </h4>
-            <p className="text-base sm:text-lg font-semibold text-amber-900 mt-1">
+            <p className="text-base font-normal mt-1">
               {t('disclaimerText')}
             </p>
           </div>
@@ -140,15 +140,15 @@ export const VisionResultPage: React.FC = () => {
           label={t('hearThis')}
           size="lg"
           variant="secondary"
-          className="w-full"
+          className="w-full bg-transparent text-sahayak-primary border border-sahayak-primary hover:bg-sahayak-primaryLight rounded-xl py-4 font-semibold text-lg"
         />
 
         <button
           type="button"
           onClick={handleSetReminder}
-          className="py-4 px-6 rounded-2xl bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-slate-950 font-black text-xl flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-all border-2 border-amber-600 min-h-[64px]"
+          className="py-4 px-6 rounded-xl bg-sahayak-primary hover:opacity-90 active:opacity-80 text-white font-semibold text-lg flex items-center justify-center gap-3 shadow-warm transition-all"
         >
-          <Bell className="w-7 h-7 stroke-[2.5]" />
+          <Bell className="w-5 h-5" />
           <span>{t('setReminder')}</span>
         </button>
       </div>

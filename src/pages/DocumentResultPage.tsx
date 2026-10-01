@@ -42,36 +42,36 @@ export const DocumentResultPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 pb-24 animate-fade-in">
+    <div className="max-w-3xl mx-auto space-y-6 pb-24 animate-fade-in bg-sahayak-bg min-h-screen px-4 py-6">
       {/* Header Badge */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 bg-emerald-100 text-emerald-950 px-4 py-1.5 rounded-full font-bold text-sm">
-          <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-          <span>{t('foundBill')}</span>
+        <div className="flex items-center gap-2 bg-sahayak-sageLight text-sahayak-sage px-4 py-1.5 rounded-full font-medium text-sm">
+          <CheckCircle2 className="w-5 h-5" />
+          <span>{t('documentIdentified')}</span>
         </div>
 
         <button
           type="button"
           onClick={() => navigateTo('camera')}
-          className="text-slate-600 hover:text-slate-900 font-bold text-sm flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-100"
+          className="text-sahayak-textLight hover:text-sahayak-text font-medium text-sm flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-50 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Scan another document</span>
+          <span>{t('scanAnotherDoc')}</span>
         </button>
       </div>
 
       {/* Bill Overview Card */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border-3 border-slate-200 shadow-lifted space-y-6">
+      <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-warm space-y-8">
         {/* Title */}
-        <div className="flex items-center gap-4 sm:gap-5 border-b border-slate-100 pb-5">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-3xl sm:text-4xl shrink-0 shadow-inner">
-            📄
+        <div className="flex items-center gap-4 sm:gap-5 border-b border-slate-50 pb-6">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-slate-50 text-sahayak-textMuted flex items-center justify-center shrink-0 shadow-sm border border-slate-100">
+            <FileText className="w-8 h-8" />
           </div>
           <div>
-            <span className="bg-amber-100 text-amber-900 font-extrabold text-xs uppercase px-3 py-1 rounded-full">
+            <span className="text-sahayak-textMuted font-medium text-xs px-2 py-1 bg-slate-50 rounded-md">
               {doc.providerName || 'Electricity Board'}
             </span>
-            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mt-1">
+            <h1 className="text-3xl font-bold text-sahayak-text mt-2">
               {doc.title}
             </h1>
           </div>
@@ -79,45 +79,45 @@ export const DocumentResultPage: React.FC = () => {
 
         {/* Big Amount and Due Date Metric Highlights */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-emerald-50/80 p-6 rounded-3xl border-2 border-emerald-200">
-            <span className="text-xs sm:text-sm font-black text-emerald-800 uppercase tracking-wider block mb-1">
+          <div className="bg-sahayak-sageLight p-6 rounded-2xl">
+            <span className="text-sm text-sahayak-sage block mb-1">
               {t('totalAmount')}
             </span>
-            <p className="text-4xl sm:text-5xl font-black text-emerald-950 tracking-tight">
+            <p className="text-4xl font-semibold text-sahayak-text">
               {doc.totalAmount || '₹1,240'}
             </p>
           </div>
 
-          <div className="bg-rose-50/80 p-6 rounded-3xl border-2 border-rose-200">
-            <span className="text-xs sm:text-sm font-black text-rose-800 uppercase tracking-wider block mb-1">
+          <div className="bg-sahayak-roseLight p-6 rounded-2xl">
+            <span className="text-sm text-sahayak-rose block mb-1">
               {t('dueDate')}
             </span>
-            <p className="text-3xl sm:text-4xl font-black text-rose-950 tracking-tight">
+            <p className="text-3xl font-semibold text-sahayak-text">
               {doc.dueDate || 'October 5'}
             </p>
           </div>
         </div>
 
         {/* Simple Plain-English Explanation */}
-        <div className="bg-indigo-50/60 p-6 rounded-3xl border-2 border-indigo-100 space-y-2">
-          <div className="flex items-center gap-2 text-indigo-900 font-black text-xl">
-            <Info className="w-6 h-6 text-indigo-700" />
+        <div className="bg-sahayak-primaryLight p-6 rounded-2xl space-y-2">
+          <div className="flex items-center gap-2 text-sahayak-primary font-semibold text-lg">
+            <Info className="w-5 h-5" />
             <span>{t('simpleExplanation')}</span>
           </div>
-          <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-relaxed">
-            "{doc.simpleExplanation}"
+          <p className="text-xl text-sahayak-text leading-relaxed">
+            {doc.simpleExplanation}
           </p>
         </div>
 
         {/* Key Points */}
-        <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-          <h4 className="font-bold text-sm text-slate-500 uppercase tracking-wider mb-3">
-            Important details detected:
+        <div className="p-5 rounded-xl border border-slate-100 bg-sahayak-bgWarm">
+          <h4 className="font-medium text-sm text-sahayak-textLight mb-3">
+            {t('importantDetails')}
           </h4>
           <ul className="space-y-2">
             {doc.keyPoints.map((point, idx) => (
-              <li key={idx} className="flex items-center gap-2.5 text-base sm:text-lg font-medium text-slate-700">
-                <span className="w-2 h-2 rounded-full bg-indigo-600 shrink-0" />
+              <li key={idx} className="flex items-start gap-2.5 text-base text-sahayak-textMuted">
+                <span className="w-1.5 h-1.5 rounded-full bg-sahayak-textLight mt-2 shrink-0" />
                 <span>{point}</span>
               </li>
             ))}
@@ -132,24 +132,24 @@ export const DocumentResultPage: React.FC = () => {
           label={t('hearThis')}
           size="lg"
           variant="secondary"
-          className="w-full"
+          className="w-full bg-transparent text-sahayak-primary border border-sahayak-primary hover:bg-sahayak-primaryLight rounded-xl py-4 font-semibold text-lg"
         />
 
         <button
           type="button"
           onClick={handleRemindToPay}
-          className="py-4 px-5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-lg flex items-center justify-center gap-2.5 shadow-md active:scale-95 transition-all border-2 border-amber-600 min-h-[64px]"
+          className="py-4 px-5 rounded-xl bg-sahayak-primary hover:opacity-90 active:opacity-80 text-white font-semibold text-lg flex items-center justify-center gap-2.5 shadow-warm transition-all"
         >
-          <Bell className="w-6 h-6 stroke-[2.5]" />
+          <Bell className="w-5 h-5" />
           <span>{t('remindToPay')}</span>
         </button>
 
         <button
           type="button"
           onClick={() => navigateTo('home')}
-          className="py-4 px-5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg flex items-center justify-center gap-2.5 shadow-lg active:scale-95 transition-all min-h-[64px]"
+          className="py-4 px-5 rounded-xl bg-transparent text-sahayak-text border border-slate-300 hover:bg-slate-50 font-semibold text-lg flex items-center justify-center gap-2.5 transition-all"
         >
-          <Check className="w-6 h-6 stroke-[3]" />
+          <Check className="w-5 h-5" />
           <span>{t('gotIt')}</span>
         </button>
       </div>

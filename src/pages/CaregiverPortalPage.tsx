@@ -28,35 +28,35 @@ export const CaregiverPortalPage: React.FC = () => {
         <button
           type="button"
           onClick={() => navigateTo('home')}
-          className="flex items-center gap-2 text-slate-700 font-bold text-lg hover:text-indigo-900 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl transition-all"
+          className="flex items-center gap-2 text-sahayak-textMuted font-semibold text-lg hover:text-sahayak-text bg-sahayak-bgWarm hover:bg-sahayak-primaryLight px-4 py-2 rounded-xl transition-all"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span>Back to Sahayak</span>
+          <span>{t('backToSahayak')}</span>
         </button>
 
-        <span className="bg-emerald-100 text-emerald-950 font-black text-xs uppercase px-3.5 py-1 rounded-full border border-emerald-300 flex items-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-emerald-700" />
-          <span>Caregiver Portal</span>
+        <span className="bg-sahayak-sageLight text-sahayak-sage font-semibold text-xs uppercase px-3.5 py-1 rounded-full flex items-center gap-1.5">
+          <ShieldCheck className="w-4 h-4 text-sahayak-sage" />
+          <span>{t('caregiverPortalTitle')}</span>
         </span>
       </div>
 
       {/* Main Banner */}
-      <div className="bg-gradient-to-r from-emerald-800 to-teal-800 text-white rounded-3xl p-6 sm:p-8 shadow-lifted space-y-3">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sahayak-bgWarm shadow-soft space-y-3">
         <div className="flex items-center gap-3">
-          <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl">
+          <div className="w-14 h-14 rounded-2xl bg-sahayak-primaryLight flex items-center justify-center text-3xl">
             👨‍👩‍👧
           </div>
           <div>
-            <h1 className="text-3xl sm:text-4xl font-black">
-              {t('caregiverPortalTitle')}
+            <h1 className="text-3xl font-semibold text-sahayak-text">
+              {t('familyCareCircle')}
             </h1>
-            <p className="text-emerald-100 text-base font-semibold">
+            <p className="text-sahayak-textMuted text-base font-medium">
               {t('caregiverPortalSub')}
             </p>
           </div>
         </div>
-        <p className="text-xs text-emerald-200 font-medium flex items-center gap-1.5 pt-2 border-t border-white/20">
-          <Activity className="w-3.5 h-3.5 text-emerald-300" />
+        <p className="text-xs text-sahayak-textLight font-medium flex items-center gap-1.5 pt-2 border-t border-sahayak-bgWarm">
+          <Activity className="w-3.5 h-3.5 text-sahayak-primary" />
           <span>{t('caregiverSyncStatus')}</span>
         </p>
       </div>
@@ -64,98 +64,98 @@ export const CaregiverPortalPage: React.FC = () => {
       {/* 3 Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Metric 1: Medicine Adherence */}
-        <div className="bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-soft">
+        <div className="bg-white rounded-3xl p-5 border border-sahayak-bgWarm shadow-soft">
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-xs font-black uppercase text-slate-500">Medicine Adherence</span>
-            <Pill className="w-5 h-5 text-amber-600" />
+            <span className="text-xs font-semibold uppercase text-sahayak-textLight">{t('medicineAdherence')}</span>
+            <Pill className="w-5 h-5 text-sahayak-primary" />
           </div>
-          <p className="text-3xl font-black text-slate-900">
-            {takenCount} / {totalMedCount || 1} Done
+          <p className="text-2xl font-semibold text-sahayak-text">
+            {takenCount} / {totalMedCount || 1} {t('done')}
           </p>
-          <p className="text-xs font-bold text-emerald-700 mt-1 flex items-center gap-1">
-            <CheckCircle2 className="w-4 h-4" />
-            <span>Morning dose taken on time</span>
-          </p>
+          <div className="mt-2 inline-flex items-center gap-1 bg-sahayak-primaryLight text-sahayak-primary text-xs font-semibold px-2 py-1 rounded-lg">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span>{t('morningDoseTakenOnTime')}</span>
+          </div>
         </div>
 
         {/* Metric 2: Upcoming Doctor Visit */}
-        <div className="bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-soft">
+        <div className="bg-white rounded-3xl p-5 border border-sahayak-bgWarm shadow-soft">
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-xs font-black uppercase text-slate-500">Doctor Visit</span>
-            <Calendar className="w-5 h-5 text-indigo-600" />
+            <span className="text-xs font-semibold uppercase text-sahayak-textLight">{t('doctorVisit')}</span>
+            <Calendar className="w-5 h-5 text-sahayak-lavender" />
           </div>
-          <p className="text-2xl font-black text-slate-900">
-            Tomorrow 10:30 AM
+          <p className="text-xl font-semibold text-sahayak-text">
+            {t('doctorVisitTimeDummy')}
           </p>
-          <p className="text-xs font-bold text-slate-500 mt-1">
-            Dr. Radhika Menon (Cardiology)
-          </p>
+          <div className="mt-2 inline-flex items-center gap-1 bg-sahayak-lavenderLight text-sahayak-lavender text-xs font-semibold px-2 py-1 rounded-lg">
+            <span>{t('doctorRadhikaMenon')}</span>
+          </div>
         </div>
 
         {/* Metric 3: Safety & Emergency Status */}
-        <div className="bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-soft">
+        <div className="bg-white rounded-3xl p-5 border border-sahayak-bgWarm shadow-soft">
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-xs font-black uppercase text-slate-500">SOS Safety Status</span>
-            <ShieldCheck className="w-5 h-5 text-emerald-600" />
+            <span className="text-xs font-semibold uppercase text-sahayak-textLight">{t('sosSafetyStatus')}</span>
+            <ShieldCheck className="w-5 h-5 text-sahayak-sage" />
           </div>
-          <p className="text-2xl font-black text-emerald-900">
-            All Safe & Calm
+          <p className="text-xl font-semibold text-sahayak-sage">
+            {t('allSafeAndCalm')}
           </p>
-          <p className="text-xs font-bold text-slate-500 mt-1">
-            No emergency alerts triggered
-          </p>
+          <div className="mt-2 inline-flex items-center gap-1 bg-sahayak-sageLight text-sahayak-sage text-xs font-semibold px-2 py-1 rounded-lg">
+            <span>{t('noEmergencyAlerts')}</span>
+          </div>
         </div>
       </div>
 
       {/* Activity Log (Permitted Info Only) */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border-3 border-slate-200 shadow-soft space-y-4">
-        <h2 className="text-2xl font-black text-slate-900">
-          Recent Care Activity Log
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sahayak-bgWarm shadow-soft space-y-4">
+        <h2 className="text-xl font-semibold text-sahayak-text">
+          {t('recentCareActivityLog')}
         </h2>
 
         <div className="space-y-3">
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
+          <div className="p-4 rounded-2xl bg-sahayak-bgWarm flex items-center justify-between gap-3 border border-transparent hover:border-sahayak-primaryLight transition-colors">
             <div className="flex items-center gap-3">
               <span className="text-2xl">💊</span>
               <div>
-                <p className="font-bold text-slate-900">Morning Calcium tablet marked taken</p>
-                <p className="text-xs text-slate-500">Today · 9:15 AM</p>
+                <p className="font-semibold text-sahayak-text">{t('morningCalciumTaken')}</p>
+                <p className="text-xs text-sahayak-textMuted">{t('today915AM')}</p>
               </div>
             </div>
-            <span className="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full">
-              Completed
+            <span className="bg-sahayak-sageLight text-sahayak-sage text-xs font-semibold px-2.5 py-1 rounded-full">
+              {t('completedStatus')}
             </span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
+          <div className="p-4 rounded-2xl bg-sahayak-bgWarm flex items-center justify-between gap-3 border border-transparent hover:border-sahayak-primaryLight transition-colors">
             <div className="flex items-center gap-3">
               <span className="text-2xl">🎙️</span>
               <div>
-                <p className="font-bold text-slate-900">Voice reminder set for evening medicine (8 PM)</p>
-                <p className="text-xs text-slate-500">Today · 8:40 AM</p>
+                <p className="font-semibold text-sahayak-text">{t('voiceReminderSetEveningMedicine')}</p>
+                <p className="text-xs text-sahayak-textMuted">{t('today840AM')}</p>
               </div>
             </div>
-            <span className="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-full">
-              Scheduled
+            <span className="bg-sahayak-primaryLight text-sahayak-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+              {t('scheduledStatus')}
             </span>
           </div>
         </div>
       </div>
 
       {/* Strict Privacy Shield Guarantee */}
-      <div className="bg-indigo-50 border-2 border-indigo-200 rounded-3xl p-6 flex items-start gap-4">
-        <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-2xl shrink-0 shadow-md">
+      <div className="bg-sahayak-primaryLight rounded-3xl p-6 flex items-start gap-4">
+        <div className="w-12 h-12 rounded-2xl bg-sahayak-primary text-white flex items-center justify-center text-2xl shrink-0 shadow-soft">
           <Lock className="w-6 h-6" />
         </div>
         <div className="space-y-1">
-          <h4 className="font-black text-lg text-indigo-950">
-            Privacy First Architecture
+          <h4 className="font-semibold text-lg text-sahayak-primary">
+            {t('privacyFirstArchitecture')}
           </h4>
-          <p className="text-base font-semibold text-indigo-900">
+          <p className="text-base font-medium text-sahayak-text">
             {t('privacyNote')}
           </p>
-          <p className="text-sm text-indigo-800 font-normal">
-            Only health adherence, schedule reminders, and emergency pings are shared with trusted family members.
+          <p className="text-sm text-sahayak-textMuted font-normal">
+            {t('privacyDesc')}
           </p>
         </div>
       </div>

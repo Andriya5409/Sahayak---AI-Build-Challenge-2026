@@ -68,17 +68,17 @@ export const AddReminderPage: React.FC = () => {
   return (
     <div className="max-w-2xl mx-auto space-y-6 pb-24 animate-fade-in">
       {/* Top Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center gap-4">
         <button
           type="button"
           onClick={() => navigateTo('reminders')}
-          className="flex items-center gap-2 text-slate-700 font-bold text-lg hover:text-indigo-900 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl transition-all"
+          className="p-2 text-sahayak-text hover:bg-sahayak-bgWarm rounded-full transition-all"
+          aria-label={t('back')}
         >
-          <ArrowLeft className="w-5 h-5" />
-          <span>{t('back')}</span>
+          <ArrowLeft className="w-6 h-6" />
         </button>
 
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
+        <h1 className="text-2xl font-semibold text-sahayak-text">
           {t('newReminderTitle')}
         </h1>
       </div>
@@ -87,31 +87,27 @@ export const AddReminderPage: React.FC = () => {
       <button
         type="button"
         onClick={handleSetByVoice}
-        className="w-full bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-300 rounded-3xl p-5 flex items-center justify-between gap-4 transition-all active:scale-98 text-left"
+        className="w-full bg-sahayak-primaryLight hover:bg-sahayak-primaryLight/80 rounded-2xl p-5 flex items-center justify-between gap-4 transition-all text-left"
       >
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-2xl shadow-md shrink-0">
-            <Mic className="w-8 h-8 stroke-[2.5]" />
+          <div className="w-12 h-12 rounded-full bg-sahayak-primary text-white flex items-center justify-center shrink-0">
+            <Mic className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xs font-black uppercase text-indigo-700 tracking-wider">Fastest Way</span>
-            <p className="text-2xl font-black text-indigo-950">
+            <p className="text-lg font-medium text-sahayak-primary">
               {t('setByVoice')}
             </p>
-            <p className="text-sm text-indigo-800 font-medium">
-              Just speak "Remind me at 8 PM to take tablet"
+            <p className="text-sm text-sahayak-primary/80">
+              {t('setByVoiceHint')}
             </p>
           </div>
         </div>
-        <span className="bg-indigo-600 text-white font-bold px-4 py-2 rounded-xl text-sm hidden sm:inline">
-          Speak
-        </span>
       </button>
 
-      <form onSubmit={handleSave} className="bg-white rounded-3xl p-6 sm:p-8 border-3 border-slate-200 shadow-lifted space-y-6">
+      <form onSubmit={handleSave} className="bg-white rounded-2xl p-6 sm:p-8 border border-sahayak-bgWarm shadow-sm space-y-8">
         {/* 1. Category Selector */}
-        <div className="space-y-3">
-          <label className="text-xl font-black text-slate-900 block">
+        <div className="space-y-4">
+          <label className="text-lg font-medium text-sahayak-text block">
             {t('reminderType')}
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -132,13 +128,13 @@ export const AddReminderPage: React.FC = () => {
                     if (cat.id === 'bill') setTitle('Pay electricity bill');
                   }
                 }}
-                className={`p-4 rounded-2xl font-bold text-lg flex items-center gap-3 transition-all border-2 text-left ${
+                className={`p-3 rounded-xl font-medium flex items-center gap-3 transition-all border text-left ${
                   category === cat.id
-                    ? 'bg-indigo-600 text-white border-indigo-700 shadow-md scale-102'
-                    : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                    ? 'bg-sahayak-primary text-white border-sahayak-primary'
+                    : 'bg-sahayak-bgWarm text-sahayak-text border-transparent hover:border-sahayak-primary/30'
                 }`}
               >
-                <span className="text-2xl">{cat.icon}</span>
+                <span className="text-xl">{cat.icon}</span>
                 <span className="truncate">{cat.label}</span>
               </button>
             ))}
@@ -147,7 +143,7 @@ export const AddReminderPage: React.FC = () => {
 
         {/* 2. Reminder Name / Title */}
         <div className="space-y-2">
-          <label htmlFor="rem-name" className="text-xl font-black text-slate-900 block">
+          <label htmlFor="rem-name" className="text-lg font-medium text-sahayak-text block">
             {t('reminderNameLabel')}
           </label>
           <input
@@ -155,15 +151,15 @@ export const AddReminderPage: React.FC = () => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder={category === 'medicine' ? 'e.g. Paracetamol 500mg' : 'e.g. Dr. Menon clinic'}
-            className="w-full text-xl font-bold p-4 rounded-2xl border-2 border-slate-300 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none text-slate-900 bg-slate-50"
+            placeholder={category === 'medicine' ? t('medPlaceholder') : t('docPlaceholder')}
+            className="w-full text-base p-3.5 rounded-xl border border-sahayak-bgWarm focus:border-sahayak-primary focus:ring-2 focus:ring-sahayak-primary/20 outline-none text-sahayak-text bg-white"
             required
           />
         </div>
 
         {/* 3. When / Date */}
         <div className="space-y-2">
-          <label className="text-xl font-black text-slate-900 block">
+          <label className="text-lg font-medium text-sahayak-text block">
             {t('dateLabel')}
           </label>
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
@@ -172,10 +168,10 @@ export const AddReminderPage: React.FC = () => {
                 key={d}
                 type="button"
                 onClick={() => setDateLabel(d)}
-                className={`py-3.5 px-3 rounded-2xl font-bold text-lg transition-all border-2 ${
+                className={`py-3 px-3 rounded-xl font-medium transition-all border ${
                   dateLabel === d
-                    ? 'bg-indigo-600 text-white border-indigo-700 shadow-sm'
-                    : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                    ? 'bg-sahayak-primary text-white border-sahayak-primary'
+                    : 'bg-sahayak-bgWarm text-sahayak-text border-transparent'
                 }`}
               >
                 {d}
@@ -186,7 +182,7 @@ export const AddReminderPage: React.FC = () => {
 
         {/* 4. What Time */}
         <div className="space-y-3">
-          <label className="text-xl font-black text-slate-900 block">
+          <label className="text-lg font-medium text-sahayak-text block">
             {t('timeLabel')}
           </label>
 
@@ -198,13 +194,13 @@ export const AddReminderPage: React.FC = () => {
                   key={tp.time}
                   type="button"
                   onClick={() => setTime(tp.time)}
-                  className={`py-3 px-3 rounded-2xl font-bold text-base flex items-center justify-center gap-2 border-2 transition-all ${
+                  className={`py-3 px-3 rounded-xl font-medium flex items-center justify-center gap-2 border transition-all ${
                     time === tp.time
-                      ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-sm font-black'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      ? 'bg-sahayak-primary text-white border-sahayak-primary'
+                      : 'bg-sahayak-bgWarm text-sahayak-text border-transparent'
                   }`}
                 >
-                  <Icon className="w-5 h-5 text-slate-800" />
+                  <Icon className="w-4 h-4" />
                   <span>{tp.time}</span>
                 </button>
               );
@@ -215,32 +211,32 @@ export const AddReminderPage: React.FC = () => {
             type="text"
             value={time}
             onChange={(e) => setTime(e.target.value)}
-            placeholder="Or type custom time (e.g. 8:30 PM)"
-            className="w-full text-lg font-bold p-3.5 rounded-2xl border-2 border-slate-300 focus:border-indigo-600 outline-none text-slate-900 bg-slate-50"
+            placeholder={t('customTimePlaceholder')}
+            className="w-full text-base p-3.5 rounded-xl border border-sahayak-bgWarm focus:border-sahayak-primary focus:ring-2 focus:ring-sahayak-primary/20 outline-none text-sahayak-text bg-white mt-2"
           />
         </div>
 
         {/* 5. Additional Notes */}
         <div className="space-y-2">
-          <label htmlFor="rem-notes" className="text-lg font-bold text-slate-700 block">
-            Extra notes (optional)
+          <label htmlFor="rem-notes" className="text-lg font-medium text-sahayak-text block">
+            {t('extraNotesLabel')}
           </label>
           <input
             id="rem-notes"
             type="text"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            placeholder="e.g. Take after dinner with warm water"
-            className="w-full text-base font-semibold p-3.5 rounded-2xl border-2 border-slate-300 focus:border-indigo-600 outline-none text-slate-900 bg-slate-50"
+            placeholder={t('extraNotesPlaceholder')}
+            className="w-full text-base p-3.5 rounded-xl border border-sahayak-bgWarm focus:border-sahayak-primary focus:ring-2 focus:ring-sahayak-primary/20 outline-none text-sahayak-text bg-white"
           />
         </div>
 
         {/* Large Submit Button */}
         <button
           type="submit"
-          className="w-full py-5 px-6 rounded-3xl bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-black text-2xl sm:text-3xl flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all border-4 border-indigo-400 min-h-[68px]"
+          className="w-full py-4 px-6 rounded-xl bg-sahayak-primary hover:opacity-90 active:opacity-100 text-white font-medium text-lg flex items-center justify-center gap-2 shadow-sm transition-all"
         >
-          <Check className="w-8 h-8 stroke-[3]" />
+          <Check className="w-6 h-6" />
           <span>{t('saveReminder')}</span>
         </button>
       </form>
