@@ -14,11 +14,11 @@ import { VoiceSpeakButton } from '../components/common/VoiceSpeakButton';
 import { ObjectVisionResult } from '../types';
 
 export const LookAroundPage: React.FC = () => {
-  const { navigateTo, speakText, t, capturedImage } = useApp();
+  const { navigateTo, speakText, t, capturedImage, activeLookAroundResult } = useApp();
   const [selectedObjectIndex, setSelectedObjectIndex] = useState(0);
   const [isScanning, setIsScanning] = useState(false);
   const [customSearchQuery, setCustomSearchQuery] = useState('');
-  const [currentObj, setCurrentObj] = useState<ObjectVisionResult>(mockLookAroundObjects[0]);
+  const [currentObj, setCurrentObj] = useState<ObjectVisionResult>(activeLookAroundResult || mockLookAroundObjects[0]);
 
   const handleSelectObject = async (idx: number) => {
     setIsScanning(true);

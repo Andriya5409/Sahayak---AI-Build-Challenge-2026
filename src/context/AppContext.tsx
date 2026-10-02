@@ -85,6 +85,8 @@ interface AppContextType {
   setCapturedImage: (img: string | null) => void;
   activeMedicineResult: MedicineVisionResult;
   activeDocumentResult: DocumentVisionResult;
+  activeLookAroundResult: ObjectVisionResult | null;
+  setLookAroundResult: (res: ObjectVisionResult | null) => void;
   setMedicineResult: (res: MedicineVisionResult) => void;
   setDocumentResult: (res: DocumentVisionResult) => void;
 
@@ -151,6 +153,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [activeMedicineResult, setActiveMedicineResult] = useState<MedicineVisionResult>(mockMedicineResult);
   const [activeDocumentResult, setActiveDocumentResult] = useState<DocumentVisionResult>(mockDocumentResult);
+  const [activeLookAroundResult, setLookAroundResult] = useState<ObjectVisionResult | null>(null);
 
   // TTS state
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
@@ -422,6 +425,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         activeDocumentResult,
         setMedicineResult: setActiveMedicineResult,
         setDocumentResult: setActiveDocumentResult,
+        activeLookAroundResult,
+        setLookAroundResult,
         isSpeaking,
         speakText,
         stopSpeaking,
