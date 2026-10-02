@@ -74,7 +74,7 @@ export const CaregiverPortalPage: React.FC = () => {
           </p>
           <div className="mt-2 inline-flex items-center gap-1 bg-sahayak-primaryLight text-sahayak-primary text-xs font-semibold px-2 py-1 rounded-lg">
             <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>{t('morningDoseTakenOnTime')}</span>
+            <span>Tracked from live reminders</span>
           </div>
         </div>
 
@@ -85,10 +85,10 @@ export const CaregiverPortalPage: React.FC = () => {
             <Calendar className="w-5 h-5 text-sahayak-lavender" />
           </div>
           <p className="text-xl font-semibold text-sahayak-text">
-            {t('doctorVisitTimeDummy')}
+            {reminders.find(r => r.category === 'appointment')?.title || 'No upcoming appointments'}
           </p>
           <div className="mt-2 inline-flex items-center gap-1 bg-sahayak-lavenderLight text-sahayak-lavender text-xs font-semibold px-2 py-1 rounded-lg">
-            <span>{t('doctorRadhikaMenon')}</span>
+            <span>{reminders.find(r => r.category === 'appointment')?.time || 'Not Scheduled'}</span>
           </div>
         </div>
 
@@ -99,10 +99,10 @@ export const CaregiverPortalPage: React.FC = () => {
             <ShieldCheck className="w-5 h-5 text-sahayak-sage" />
           </div>
           <p className="text-xl font-semibold text-sahayak-sage">
-            {t('allSafeAndCalm')}
+            Secure & Monitored
           </p>
           <div className="mt-2 inline-flex items-center gap-1 bg-sahayak-sageLight text-sahayak-sage text-xs font-semibold px-2 py-1 rounded-lg">
-            <span>{t('noEmergencyAlerts')}</span>
+            <span>No emergency alerts today</span>
           </div>
         </div>
       </div>
@@ -114,31 +114,23 @@ export const CaregiverPortalPage: React.FC = () => {
         </h2>
 
         <div className="space-y-3">
-          <div className="p-4 rounded-2xl bg-sahayak-bgWarm flex items-center justify-between gap-3 border border-transparent hover:border-sahayak-primaryLight transition-colors">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">💊</span>
-              <div>
-                <p className="font-semibold text-sahayak-text">{t('morningCalciumTaken')}</p>
-                <p className="text-xs text-sahayak-textMuted">{t('today915AM')}</p>
+          {reminders.filter(r => r.completed).slice(0, 3).map((r) => (
+            <div key={r.id} className="p-4 rounded-2xl bg-sahayak-bgWarm flex items-center justify-between gap-3 border border-transparent hover:border-sahayak-primaryLight transition-colors">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{r.icon}</span>
+                <div>
+                  <p className="font-semibold text-sahayak-text">{r.title}</p>
+                  <p className="text-xs text-sahayak-textMuted">Marked taken today</p>
+                </div>
               </div>
+              <span className="bg-sahayak-sageLight text-sahayak-sage text-xs font-semibold px-2.5 py-1 rounded-full">
+                {t('completedStatus')}
+              </span>
             </div>
-            <span className="bg-sahayak-sageLight text-sahayak-sage text-xs font-semibold px-2.5 py-1 rounded-full">
-              {t('completedStatus')}
-            </span>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-sahayak-bgWarm flex items-center justify-between gap-3 border border-transparent hover:border-sahayak-primaryLight transition-colors">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">🎙️</span>
-              <div>
-                <p className="font-semibold text-sahayak-text">{t('voiceReminderSetEveningMedicine')}</p>
-                <p className="text-xs text-sahayak-textMuted">{t('today840AM')}</p>
-              </div>
-            </div>
-            <span className="bg-sahayak-primaryLight text-sahayak-primary text-xs font-semibold px-2.5 py-1 rounded-full">
-              {t('scheduledStatus')}
-            </span>
-          </div>
+          ))}
+          {reminders.filter(r => r.completed).length === 0 && (
+            <p className="text-sm text-sahayak-textMuted italic">No completed activities yet today.</p>
+          )}
         </div>
       </div>
 

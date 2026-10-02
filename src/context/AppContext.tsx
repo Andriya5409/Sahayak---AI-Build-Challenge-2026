@@ -246,10 +246,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const speakText = async (text: string, onEnd?: () => void) => {
     const rate = user.speechSpeed === 'slow' ? 0.82 : 1.0;
+    const gender = user.voiceGender;
     const volume = user.soundVolume / 100;
     await ttsService.speak(text, {
       rate,
       volume,
+      gender: user.voiceGender,
       lang: user.language,
       onEnd,
     });

@@ -25,6 +25,7 @@ class TTSService {
       pitch?: number; 
       volume?: number; 
       lang?: string;
+      gender?: string;
       onEnd?: () => void;
     }
   ): Promise<void> {
@@ -54,9 +55,16 @@ class TTSService {
       // Pick a warm natural voice if available
       const voices = window.speechSynthesis.getVoices();
       if (voices && voices.length > 0) {
-        const preferredVoice = voices.find(v => 
-          v.lang.includes('en-IN') || v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('India')
-        ) || voices[0];
+        let preferredVoice = voices.find(v => {
+          const isIndia = v.lang.includes('en-IN') || v.name.includes('India');
+          const matchesGender = options?.gender === 'male' ? (v.name.includes('Male') || v.name.includes('Rishi')) : (v.name.includes('Female') || v.name.includes('Aditi') || !v.name.includes('Male'));
+          return isIndia && matchesGender;
+        });
+        
+        if (!preferredVoice) {
+          preferredVoice = voices.find(v => v.lang.includes('en-IN') || v.name.includes('Google') || v.name.includes('Natural')) || voices[0];
+        }
+        
         if (preferredVoice) utterance.voice = preferredVoice;
       }
 

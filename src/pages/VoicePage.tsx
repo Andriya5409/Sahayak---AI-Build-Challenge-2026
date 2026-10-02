@@ -50,19 +50,6 @@ export const VoicePage: React.FC = () => {
     setCurrentVoiceExchange(exchange);
     setVoiceState('speaking');
 
-    // Automatically create reminder if requested
-    if (exchange.actionTaken?.type === 'create_reminder' && exchange.actionTaken.payload) {
-      addReminder({
-        title: exchange.actionTaken.payload.title || 'Evening reminder',
-        category: exchange.actionTaken.payload.category || 'medicine',
-        time: exchange.actionTaken.payload.time || '8:00 PM',
-        dateLabel: 'Today',
-        datetime: new Date().toISOString(),
-        dosageOrNotes: 'Scheduled via Real-time Voice Assistant',
-        icon: exchange.actionTaken.payload.category === 'medicine' ? '💊' : '⏰',
-      });
-    }
-
     speakText(exchange.aiResponse);
   };
 
@@ -318,7 +305,10 @@ export const VoicePage: React.FC = () => {
                 </div>
                 <button
                   type="button"
-                  onClick={() => startCallFlow(contacts[0])}
+                  onClick={() => {
+                    const phone = currentVoiceExchange.actionTaken?.payload?.phone || contacts[0]?.phone;
+                    if (phone) window.location.href = `tel:${phone}`;
+                  }}
                   className="bg-sahayak-primary text-white font-medium px-4 py-2 rounded-xl text-sm hover:opacity-90 transition-opacity"
                 >
                   {t('openPhone')}

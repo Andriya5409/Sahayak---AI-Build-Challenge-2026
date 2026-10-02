@@ -125,7 +125,7 @@ export const CameraPage: React.FC = () => {
 
     if (cameraMode === 'look_around' || cameraMode === 'object') {
       try {
-        await visionService.lookAroundScan();
+        await visionService.lookAroundScan('', activeImage);
       } catch (e) {
         console.warn(e);
       }
@@ -260,7 +260,7 @@ export const CameraPage: React.FC = () => {
             <div className="w-8 h-8 border-t-2 border-l-2 border-white/50 rounded-tl-lg shadow-sm" />
             <div className="bg-black/60 backdrop-blur-sm text-white/90 px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 border border-white/10">
               <span className={`w-2 h-2 rounded-full ${useWebcam || uploadedImage ? 'bg-sahayak-primary animate-pulse' : 'bg-orange-500'}`} />
-              <span>{uploadedImage ? 'Custom Photo' : useWebcam ? 'Live Camera' : 'Camera Not Found - Using Dummy Image'}</span>
+              <span>{uploadedImage ? 'Custom Photo' : useWebcam ? 'Live Camera' : 'Camera unavailable. You can upload a photo.'}</span>
             </div>
             <div className="w-8 h-8 border-t-2 border-r-2 border-white/50 rounded-tr-lg shadow-sm" />
           </div>
@@ -296,7 +296,7 @@ export const CameraPage: React.FC = () => {
               {t('letMeTakeALook')}
             </h3>
             <p className="text-white/80 text-sm max-w-xs">
-              Sending to Gemini Multimodal Vision AI for real-time analysis...
+              I am looking closely at this...
             </p>
           </div>
         )}

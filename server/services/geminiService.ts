@@ -248,10 +248,10 @@ Return ONLY a valid JSON object matching this schema (do NOT include markdown co
       return {
         id: 'vx_' + Date.now(),
         userPrompt: prompt,
-        aiResponse: `The weather in Kochi is pleasant today at 28°C with partly cloudy skies and a gentle cooling breeze.`,
+        aiResponse: `I'm sorry ${salutation}, but the live weather feature is not fully connected in this prototype.`,
         actionTaken: {
-          type: 'weather',
-          details: '28°C · Partly cloudy',
+          type: 'none',
+          details: 'Weather API disconnected',
         },
         audioDurationSeconds: 4,
       };
@@ -345,23 +345,20 @@ Output STRICTLY valid JSON without code fences or backticks:
     }
 
     return {
-      id: 'med_paracetamol_500',
-      name: 'Paracetamol 500 mg',
-      genericName: 'Paracetamol (Acetaminophen)',
-      strength: '500 mg Tablet',
-      category: 'Pain relief & fever reducer',
-      commonUse: 'Relief of mild to moderate fever, headache, body aches, and joint stiffness.',
-      dosageAdvice: 'Take 1 tablet after meals with a full glass of water. Do not take more than 4 tablets in 24 hours.',
+      id: 'med_error',
+      name: 'Could not identify clearly',
+      genericName: 'Unknown',
+      strength: '-',
+      category: 'Unknown',
+      commonUse: 'I could not reliably identify this medicine. Please try taking another clear photo.',
+      dosageAdvice: 'Consult your doctor or pharmacist.',
       instructions: [
-        'Take 1 tablet after food',
-        'Drink a full glass of water',
-        'Keep at least 6 hours gap between doses',
+        'Try moving to a brighter area',
+        'Keep the text in focus',
+        'Ensure the whole strip/bottle is visible'
       ],
       disclaimer: 'Please always confirm medicine and dosage with your doctor or pharmacist.',
-      imageUrl: imageUrlOrData || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80',
-      expiryDate: 'Exp: 11/2027',
-      prescribedBy: 'Dr. Radhika Menon',
-      suggestedReminderTime: '8:00 PM',
+      imageUrl: imageUrlOrData || '',
     };
   }
 
@@ -434,21 +431,19 @@ Output STRICTLY valid JSON without code fences or backticks:
     }
 
     return {
-      id: 'doc_bill_kseb_1240',
-      documentType: 'electricity_bill',
-      title: 'Electricity Utility Bill',
-      totalAmount: '₹1,240',
-      dueDate: 'October 5',
-      providerName: 'State Electricity Board (KSEB)',
-      simpleExplanation: 'Your electricity bill is ₹1,240 and needs to be paid by October 5.',
+      id: 'doc_failed',
+      documentType: 'letter',
+      title: 'Analysis Failed',
+      totalAmount: 'N/A',
+      dueDate: 'N/A',
+      providerName: 'Unknown',
+      simpleExplanation: 'I could not read this document clearly. Please try again with better lighting.',
       keyPoints: [
-        'Consumer Name: Kalyani Ammal',
-        'Bill Period: September 2026',
-        'Amount Payable: ₹1,240',
-        'Last Date without fine: October 5',
+        'Ensure the document is flat',
+        'Check that the text is not blurry',
       ],
-      actionRecommendation: 'Would you like Sahayak to set a reminder or notify Ananya to pay online?',
-      imageUrl: imageUrlOrData || 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80',
+      actionRecommendation: 'Try another photo.',
+      imageUrl: imageUrlOrData || '',
     };
   }
 

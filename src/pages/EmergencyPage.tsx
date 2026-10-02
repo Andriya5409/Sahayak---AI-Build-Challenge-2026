@@ -25,23 +25,13 @@ export const EmergencyPage: React.FC = () => {
   const handleCallEmergency112 = () => {
     showConfirmation({
       title: t('emergencyConfirmTitle'),
-      description: t('emergencyConfirmDesc'),
+      description: 'You are about to call emergency services. This will open your phone dialer.',
       confirmText: t('confirmEmergencyBtn'),
       cancelText: t('noCancel'),
       isDestructive: true,
       onConfirm: () => {
         closeConfirmation();
-        startCallFlow({
-          id: 'sos_112',
-          name: 'Emergency Services 112',
-          relation: t('policeAmbulanceDispatch'),
-          relationKey: 'emergency',
-          phone: '112',
-          avatar: '🚨',
-          avatarBg: 'bg-sahayak-redLight text-sahayak-red',
-          status: t('priorityDirectLine'),
-          isEmergencyContact: true,
-        }, true);
+        window.location.href = 'tel:112';
       }
     });
   };

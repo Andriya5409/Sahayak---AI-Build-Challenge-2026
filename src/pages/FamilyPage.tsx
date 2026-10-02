@@ -13,11 +13,11 @@ import { useApp } from '../context/AppContext';
 import { FamilyContact } from '../types';
 
 export const FamilyPage: React.FC = () => {
-  const { contacts, startCallFlow, speakText, t } = useApp();
+  const { contacts, speakText, t } = useApp();
 
   const handleCall = (contact: FamilyContact) => {
     speakText(`Calling ${contact.name}`);
-    startCallFlow(contact);
+    window.location.href = `tel:${contact.phone}`;
   };
 
   return (

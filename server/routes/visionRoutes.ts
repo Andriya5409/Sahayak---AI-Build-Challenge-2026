@@ -45,8 +45,9 @@ visionRouter.post('/analyze-document', async (req, res) => {
 // POST /api/vision/look-around
 visionRouter.post('/look-around', async (req, res) => {
   try {
-    const { query, image } = req.body;
-    const results = await geminiService.scanLookAround(query, image);
+    const { query, image, imageBlobOrDataUrl } = req.body;
+    const imageData = image || imageBlobOrDataUrl || '';
+    const results = await geminiService.scanLookAround(query, imageData);
     res.json(results);
   } catch (error: any) {
     console.error('Look around error:', error);

@@ -188,7 +188,7 @@ export const translations = {
 
 export function getTranslation(lang: Language, key: any, params?: Record<string, string | number>): string {
   const dictionary = translations[lang] || translations.en;
-  let text = (dictionary as any)[key] || (translations.en as any)[key] || key;
+  let text = (dictionary as any)[key] || (translations.en as any)[key]; if (!text) text = key.replace(/([A-Z])/g, ' $1').replace(/^./, (str: string) => str.toUpperCase());
   if (params && typeof text === 'string') {
     Object.entries(params).forEach(([k, v]) => {
       text = text.replace(new RegExp('\\\{\\\{' + k + '\\\}\\\}', 'g'), String(v));

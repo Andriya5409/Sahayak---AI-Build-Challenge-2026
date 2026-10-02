@@ -13,7 +13,7 @@ import {
 export interface IVisionService {
   analyzeMedicine(imageBlobOrDataUrl: string): Promise<MedicineVisionResult>;
   analyzeDocument(imageBlobOrDataUrl: string): Promise<DocumentVisionResult>;
-  lookAroundScan(query?: string): Promise<ObjectVisionResult>;
+  lookAroundScan(query?: string, imageBlobOrDataUrl?: string): Promise<ObjectVisionResult>;
 }
 
 class VisionService implements IVisionService {
@@ -37,8 +37,16 @@ class VisionService implements IVisionService {
 
     await new Promise((r) => setTimeout(r, 800));
     return {
-      ...mockMedicineResult,
-      imageUrl: imageBlobOrDataUrl || mockMedicineResult.imageUrl,
+      id: 'med_error',
+      name: 'Could not identify clearly',
+      genericName: 'Unknown',
+      strength: '-',
+      category: 'Unknown',
+      commonUse: 'Please try taking another clear photo.',
+      dosageAdvice: 'Consult a doctor.',
+      instructions: [],
+      disclaimer: 'Please always confirm medicine and dosage with your doctor or pharmacist.',
+      imageUrl: imageBlobOrDataUrl,
     };
   }
 
@@ -62,17 +70,22 @@ class VisionService implements IVisionService {
 
     await new Promise((r) => setTimeout(r, 900));
     return {
-      ...mockDocumentResult,
-      imageUrl: imageBlobOrDataUrl || mockDocumentResult.imageUrl,
+      id: 'doc_failed',
+      documentType: 'electricity_bill',
+      title: 'Analysis Failed',
+      simpleExplanation: 'I could not read this document clearly. Please try again.',
+      keyPoints: [],
+      actionRecommendation: 'Try another photo.',
+      imageUrl: imageBlobOrDataUrl,
     };
   }
 
-  public async lookAroundScan(query?: string): Promise<ObjectVisionResult> {
+  public async lookAroundScan(query?: string, imageBlobOrDataUrl?: string): Promise<ObjectVisionResult> {
     try {
       const response = await fetch('/api/vision/look-around', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, imageBlobOrDataUrl }),
       });
       if (response.ok) {
         const data = await response.json();

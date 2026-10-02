@@ -16,16 +16,15 @@ emergencyRouter.post('/emergency', (req, res) => {
 
   const emergencyContacts = store.getEmergencyContacts();
   const dispatchedTo = emergencyContacts.map((c) => `${c.name} (${c.relation})`);
-  dispatchedTo.push('Emergency 112 Dispatch');
 
   const event = store.recordEmergency(alertDetails, dispatchedTo);
 
-  console.log(`🚨 EMERGENCY SOS DISPATCHED: ${alertDetails}`);
-  console.log(`📡 Broadcasted to: ${dispatchedTo.join(', ')}`);
+  console.log(`🚨 EMERGENCY SOS LOGGED: ${alertDetails}`);
+  console.log(`📡 Broadcasted to Caregiver Portal: ${dispatchedTo.join(', ')}`);
 
   res.status(200).json({
     success: true,
-    message: 'Emergency SOS alert dispatched to all family contacts and local emergency services.',
+    message: 'Emergency SOS alert recorded and Caregiver Portal notified.',
     event,
     dispatchedTo,
   });
