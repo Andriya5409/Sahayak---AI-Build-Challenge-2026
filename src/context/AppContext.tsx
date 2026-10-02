@@ -22,6 +22,7 @@ import {
 import { translations, getTranslation } from '../i18n/translations';
 import { ttsService } from '../services/ttsService';
 import { reminderService } from '../services/reminderService';
+import { familyService } from '../services/familyService';
 import { callService } from '../services/callService';
 
 export type ScreenType = 
@@ -181,6 +182,17 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       setIsSpeaking(speaking);
     });
     return unsub;
+  }, []);
+
+  // Hydrate reminders and contacts from backend
+  useEffect(() => {
+    reminderService.getReminders().then((data) => {
+      if (data && data.length > 0) setReminders(data);
+    }).catch(console.error);
+
+    familyService.getContacts().then((data) => {
+      if (data && data.length > 0) setContacts(data);
+    }).catch(console.error);
   }, []);
 
   // Call timer simulation

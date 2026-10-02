@@ -1,44 +1,82 @@
 import React, { useState } from 'react';
 import { 
   Eye, 
-  Mic, 
   RefreshCw, 
-  Volume2, 
   ArrowLeft, 
-  CheckCircle2, 
   Search,
-  Target
+  Target,
+  Send
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { mockLookAroundObjects } from '../mock/data';
+import { visionService } from '../services/visionService';
 import { VoiceSpeakButton } from '../components/common/VoiceSpeakButton';
+import { ObjectVisionResult } from '../types';
 
 export const LookAroundPage: React.FC = () => {
   const { navigateTo, speakText, t } = useApp();
   const [selectedObjectIndex, setSelectedObjectIndex] = useState(0);
   const [isScanning, setIsScanning] = useState(false);
+  const [customSearchQuery, setCustomSearchQuery] = useState('');
+  const [currentObj, setCurrentObj] = useState<ObjectVisionResult>(mockLookAroundObjects[0]);
 
-  const currentObj = mockLookAroundObjects[selectedObjectIndex];
-
-  const handleSelectObject = (idx: number) => {
+  const handleSelectObject = async (idx: number) => {
     setIsScanning(true);
     setSelectedObjectIndex(idx);
-    setTimeout(() => {
+    const targetObj = mockLookAroundObjects[idx];
+
+    try {
+      const res = await visionService.lookAroundScan(targetObj.objectName);
+      if (res) {
+        setCurrentObj(res);
+        speakText(res.locationDescription);
+      } else {
+        setCurrentObj(targetObj);
+        speakText(targetObj.locationDescription);
+      }
+    } catch (err) {
+      setCurrentObj(targetObj);
+      speakText(targetObj.locationDescription);
+    } finally {
       setIsScanning(false);
-      speakText(mockLookAroundObjects[idx].locationDescription);
-    }, 900);
+    }
   };
 
-  const handleScanAgain = () => {
+  const handleCustomSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customSearchQuery.trim()) return;
+
     setIsScanning(true);
-    setTimeout(() => {
+    try {
+      const res = await visionService.lookAroundScan(customSearchQuery.trim());
+      if (res) {
+        setCurrentObj(res);
+        speakText(res.locationDescription);
+      }
+    } catch (err) {
+      console.warn('Search failed:', err);
+    } finally {
       setIsScanning(false);
+    }
+  };
+
+  const handleScanAgain = async () => {
+    setIsScanning(true);
+    try {
+      const res = await visionService.lookAroundScan(currentObj.objectName);
+      if (res) {
+        setCurrentObj(res);
+        speakText(res.locationDescription);
+      }
+    } catch (err) {
       speakText(currentObj.locationDescription);
-    }, 1000);
+    } finally {
+      setIsScanning(false);
+    }
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 pb-24 animate-fade-in">
+    <div className="max-w-3xl mx-auto space-y-6 pb-24 animate-fade-in px-4">
       {/* Title & Mode Badge */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 bg-sahayak-primaryLight text-sahayak-primary px-4 py-1.5 rounded-full font-semibold text-sm">
@@ -65,6 +103,28 @@ export const LookAroundPage: React.FC = () => {
         </p>
       </div>
 
+      {/* Custom Item Search Bar */}
+      <form onSubmit={handleCustomSearch} className="max-w-lg mx-auto">
+        <div className="flex items-center gap-2 bg-white rounded-2xl p-2 border border-slate-200 shadow-sm">
+          <Search className="w-5 h-5 text-slate-400 ml-2 shrink-0" />
+          <input
+            type="text"
+            value={customSearchQuery}
+            onChange={(e) => setCustomSearchQuery(e.target.value)}
+            placeholder="Search for an item (e.g. keys, wallet, bottle)..."
+            className="flex-1 px-2 py-2 text-base text-sahayak-text outline-none bg-transparent"
+          />
+          <button
+            type="submit"
+            disabled={!customSearchQuery.trim() || isScanning}
+            className="bg-sahayak-primary disabled:opacity-40 text-white px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-1.5 transition-all"
+          >
+            <span>Find</span>
+            <Send className="w-4 h-4" />
+          </button>
+        </div>
+      </form>
+
       {/* Quick Item Target Filter Buttons */}
       <div className="flex items-center justify-center gap-2 flex-wrap">
         {mockLookAroundObjects.map((obj, i) => (
@@ -72,10 +132,11 @@ export const LookAroundPage: React.FC = () => {
             key={obj.id}
             type="button"
             onClick={() => handleSelectObject(i)}
+            disabled={isScanning}
             className={`px-4 py-2.5 rounded-2xl font-semibold text-base transition-all border flex items-center gap-2 ${
-              selectedObjectIndex === i
+              currentObj.objectName.toLowerCase() === obj.objectName.toLowerCase()
                 ? 'bg-sahayak-primary text-white border-sahayak-primary shadow-soft'
-                : 'bg-white text-sahayak-text border-transparent hover:bg-sahayak-primaryLight'
+                : 'bg-white text-sahayak-text border-slate-200 hover:bg-sahayak-primaryLight'
             }`}
           >
             <span>{i === 0 ? '👓' : i === 1 ? '💊' : '🦯'}</span>
@@ -94,10 +155,11 @@ export const LookAroundPage: React.FC = () => {
 
         {/* Live scanning line */}
         {isScanning && (
-          <div className="absolute inset-0 bg-sahayak-primary/20 backdrop-blur-sm flex items-center justify-center z-20">
-            <div className="flex flex-col items-center gap-3 bg-white/90 text-sahayak-primary px-6 py-4 rounded-2xl shadow-soft">
+          <div className="absolute inset-0 bg-sahayak-primary/25 backdrop-blur-sm flex items-center justify-center z-20">
+            <div className="flex flex-col items-center gap-3 bg-white/95 text-sahayak-primary px-6 py-4 rounded-2xl shadow-soft">
               <RefreshCw className="w-8 h-8 animate-spin" />
               <p className="font-semibold text-lg text-sahayak-text">{t('scanningRoomSpace')}</p>
+              <p className="text-xs text-sahayak-textMuted">Identifying spatial coordinates with AI...</p>
             </div>
           </div>
         )}
@@ -157,9 +219,10 @@ export const LookAroundPage: React.FC = () => {
           <button
             type="button"
             onClick={handleScanAgain}
-            className="py-3 px-5 rounded-2xl bg-sahayak-bgWarm hover:bg-sahayak-primaryLight text-sahayak-textMuted font-semibold text-lg flex items-center justify-center gap-2 transition-all active:scale-95"
+            disabled={isScanning}
+            className="py-3 px-5 rounded-2xl bg-sahayak-bgWarm hover:bg-sahayak-primaryLight text-sahayak-text font-semibold text-lg flex items-center justify-center gap-2 transition-all active:scale-95"
           >
-            <RefreshCw className="w-5 h-5 text-sahayak-textMuted" />
+            <RefreshCw className="w-5 h-5 text-sahayak-primary" />
             <span>{t('scanAgain')}</span>
           </button>
         </div>

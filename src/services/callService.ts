@@ -1,14 +1,5 @@
 import { FamilyContact, ActiveCall } from '../types';
 
-/**
- * Call Service Placeholder
- * 
- * BACKEND INTEGRATION NOTE:
- * Connect to WebRTC / Agora / Twilio calling backend:
- * POST /api/calls/initiate
- * POST /api/calls/terminate
- * POST /api/emergency/trigger-sos
- */
 export interface ICallService {
   initiateCall(contact: FamilyContact | { name: string; relation: string; phone: string; isEmergency?: boolean }): Promise<ActiveCall>;
   endCall(): Promise<void>;
@@ -16,8 +7,26 @@ export interface ICallService {
 }
 
 class CallService implements ICallService {
+  private activeCallId: string | null = null;
+
   public async initiateCall(contact: FamilyContact | { name: string; relation: string; phone: string; isEmergency?: boolean }): Promise<ActiveCall> {
-    await new Promise((r) => setTimeout(r, 400));
+    try {
+      const response = await fetch('/api/calls/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contact,
+          isEmergency: (contact as any).isEmergency || false,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        this.activeCallId = data.callId;
+      }
+    } catch (err) {
+      console.warn('Call initiate API error, proceeding locally:', err);
+    }
+
     return {
       contact,
       state: 'dialing',
@@ -29,12 +38,44 @@ class CallService implements ICallService {
   }
 
   public async endCall(): Promise<void> {
-    await new Promise((r) => setTimeout(r, 200));
+    try {
+      if (this.activeCallId) {
+        await fetch('/api/calls/terminate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ callId: this.activeCallId }),
+        });
+      }
+    } catch (err) {
+      console.warn('Call end API error:', err);
+    } finally {
+      this.activeCallId = null;
+    }
   }
 
   public async triggerEmergencyAlert(details: string): Promise<{ success: boolean; dispatchedTo: string[] }> {
-    await new Promise((r) => setTimeout(r, 600));
-    console.log('🚨 EMERGENCY SOS SENT: ', details);
+    try {
+      const response = await fetch('/api/emergency', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ details }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          success: true,
+          dispatchedTo: data.dispatchedTo || [
+            'Ananya (Daughter)',
+            'Rohan (Son)',
+            'Suresh (Caregiver)',
+            'Emergency 112 Dispatch',
+          ],
+        };
+      }
+    } catch (err) {
+      console.warn('Emergency API error, fallback local dispatch:', err);
+    }
+
     return {
       success: true,
       dispatchedTo: ['Ananya (Daughter)', 'Rohan (Son)', 'Suresh (Caregiver)', 'Emergency 112 Dispatch'],

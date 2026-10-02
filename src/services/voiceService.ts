@@ -1,13 +1,6 @@
 import { VoiceExchange, VoiceState } from '../types';
 import { mockVoicePresetExchanges } from '../mock/data';
 
-/**
- * Voice Service Placeholder
- * 
- * BACKEND INTEGRATION NOTE:
- * Replace mock processVoiceInput with real streaming speech-to-text (Whisper/Gemini Live API)
- * and LLM dialogue service endpoint (e.g. POST /api/voice/process).
- */
 export interface IVoiceService {
   processVoiceInput(spokenText: string): Promise<VoiceExchange>;
   getPresets(): { label: string; prompt: string; key: string }[];
@@ -39,29 +32,42 @@ class VoiceService implements IVoiceService {
     ];
   }
 
-  public async processVoiceInput(spokenText: string): Promise<VoiceExchange> {
-    // Simulated network delay for realistic feel
-    await new Promise((r) => setTimeout(r, 900));
+  public async processVoiceInput(spokenText: string, audioBase64?: string): Promise<VoiceExchange> {
+    try {
+      const response = await fetch('/api/voice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: spokenText, audioData: audioBase64 }),
+      });
 
+      if (response.ok) {
+        const exchange: VoiceExchange = await response.json();
+        return exchange;
+      }
+    } catch (err) {
+      console.warn('Voice API request failed, using intelligent offline fallback:', err);
+    }
+
+    // Fallback logic for offline mode
+    await new Promise((r) => setTimeout(r, 600));
     const lower = spokenText.toLowerCase();
 
-    if (lower.includes('medicine') || lower.includes('pill') || lower.includes('remind') || lower.includes('8 pm') || lower.includes('രാത്രി 8')) {
+    if (lower.includes('medicine') || lower.includes('pill') || lower.includes('remind') || lower.includes('8 pm')) {
       return mockVoicePresetExchanges.medicine_reminder;
     }
 
-    if (lower.includes('doctor') || lower.includes('appointment') || lower.includes('clinic') || lower.includes('ഡോക്ടർ')) {
+    if (lower.includes('doctor') || lower.includes('appointment') || lower.includes('clinic')) {
       return mockVoicePresetExchanges.doctor_appt;
     }
 
-    if (lower.includes('call') || lower.includes('ananya') || lower.includes('daughter') || lower.includes('മകൾ') || lower.includes('വിളിക്കൂ')) {
+    if (lower.includes('call') || lower.includes('ananya') || lower.includes('daughter')) {
       return mockVoicePresetExchanges.call_daughter;
     }
 
-    if (lower.includes('weather') || lower.includes('rain') || lower.includes('hot') || lower.includes('മഴ') || lower.includes('കാലാവസ്ഥ')) {
+    if (lower.includes('weather') || lower.includes('rain') || lower.includes('hot')) {
       return mockVoicePresetExchanges.weather_check;
     }
 
-    // Default friendly conversational response
     return {
       id: 'vx_gen_' + Date.now(),
       userPrompt: spokenText,

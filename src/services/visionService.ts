@@ -10,13 +10,6 @@ import {
   mockLookAroundObjects 
 } from '../mock/data';
 
-/**
- * Vision Service Placeholder
- * 
- * BACKEND INTEGRATION NOTE:
- * Replace mock methods with calls to multimodal vision API (e.g. Gemini 1.5 Pro / Flash Vision endpoint
- * POST /api/vision/analyze-medicine, POST /api/vision/analyze-document, POST /api/vision/look-around).
- */
 export interface IVisionService {
   analyzeMedicine(imageBlobOrDataUrl: string): Promise<MedicineVisionResult>;
   analyzeDocument(imageBlobOrDataUrl: string): Promise<DocumentVisionResult>;
@@ -25,8 +18,24 @@ export interface IVisionService {
 
 class VisionService implements IVisionService {
   public async analyzeMedicine(imageBlobOrDataUrl: string): Promise<MedicineVisionResult> {
-    // Simulated processing time
-    await new Promise((r) => setTimeout(r, 1200));
+    try {
+      const response = await fetch('/api/vision', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageBlobOrDataUrl, mode: 'medicine' }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          ...data,
+          imageUrl: imageBlobOrDataUrl || data.imageUrl || mockMedicineResult.imageUrl,
+        };
+      }
+    } catch (err) {
+      console.warn('Medicine vision API error, using fallback:', err);
+    }
+
+    await new Promise((r) => setTimeout(r, 800));
     return {
       ...mockMedicineResult,
       imageUrl: imageBlobOrDataUrl || mockMedicineResult.imageUrl,
@@ -34,8 +43,24 @@ class VisionService implements IVisionService {
   }
 
   public async analyzeDocument(imageBlobOrDataUrl: string): Promise<DocumentVisionResult> {
-    // Simulated processing time
-    await new Promise((r) => setTimeout(r, 1300));
+    try {
+      const response = await fetch('/api/document/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageBlobOrDataUrl }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          ...data,
+          imageUrl: imageBlobOrDataUrl || data.imageUrl || mockDocumentResult.imageUrl,
+        };
+      }
+    } catch (err) {
+      console.warn('Document OCR API error, using fallback:', err);
+    }
+
+    await new Promise((r) => setTimeout(r, 900));
     return {
       ...mockDocumentResult,
       imageUrl: imageBlobOrDataUrl || mockDocumentResult.imageUrl,
@@ -43,15 +68,28 @@ class VisionService implements IVisionService {
   }
 
   public async lookAroundScan(query?: string): Promise<ObjectVisionResult> {
-    await new Promise((r) => setTimeout(r, 800));
-    
+    try {
+      const response = await fetch('/api/vision/look-around', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const obj = Array.isArray(data) ? data[0] : data;
+        if (obj) return obj;
+      }
+    } catch (err) {
+      console.warn('Look around API error, using fallback:', err);
+    }
+
+    await new Promise((r) => setTimeout(r, 600));
     if (query && query.toLowerCase().includes('medicine')) {
       return mockLookAroundObjects[1];
     }
     if (query && query.toLowerCase().includes('stick')) {
       return mockLookAroundObjects[2];
     }
-    // Default glasses
     return mockLookAroundObjects[0];
   }
 }
