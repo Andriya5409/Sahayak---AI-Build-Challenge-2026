@@ -8,6 +8,7 @@ import {
   VoiceExchange, 
   MedicineVisionResult, 
   DocumentVisionResult, 
+  ObjectVisionResult,
   Language, 
   TextSize,
   CameraCaptureMode

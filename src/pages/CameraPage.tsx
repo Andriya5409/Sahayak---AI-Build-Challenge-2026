@@ -22,6 +22,8 @@ export const CameraPage: React.FC = () => {
     navigateTo, 
     setMedicineResult, 
     setDocumentResult,
+    setCapturedImage,
+    setLookAroundResult,
     t 
   } = useApp();
 
