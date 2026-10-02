@@ -81,6 +81,8 @@ interface AppContextType {
   // Vision / Camera
   cameraMode: CameraCaptureMode;
   setCameraMode: (mode: CameraCaptureMode) => void;
+  capturedImage: string | null;
+  setCapturedImage: (img: string | null) => void;
   activeMedicineResult: MedicineVisionResult;
   activeDocumentResult: DocumentVisionResult;
   setMedicineResult: (res: MedicineVisionResult) => void;
@@ -146,6 +148,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   // Vision state
   const [cameraMode, setCameraMode] = useState<CameraCaptureMode>('medicine');
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [activeMedicineResult, setActiveMedicineResult] = useState<MedicineVisionResult>(mockMedicineResult);
   const [activeDocumentResult, setActiveDocumentResult] = useState<DocumentVisionResult>(mockDocumentResult);
 
@@ -413,6 +416,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setCurrentVoiceExchange,
         cameraMode,
         setCameraMode,
+      capturedImage,
+      setCapturedImage,
         activeMedicineResult,
         activeDocumentResult,
         setMedicineResult: setActiveMedicineResult,

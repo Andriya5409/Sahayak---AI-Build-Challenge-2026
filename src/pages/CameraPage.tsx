@@ -125,7 +125,7 @@ export const CameraPage: React.FC = () => {
 
     if (cameraMode === 'look_around' || cameraMode === 'object') {
       try {
-        await visionService.lookAroundScan('', activeImage);
+        setCapturedImage(activeImage); await visionService.lookAroundScan('', activeImage);
       } catch (e) {
         console.warn(e);
       }

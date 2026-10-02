@@ -14,7 +14,7 @@ import { VoiceSpeakButton } from '../components/common/VoiceSpeakButton';
 import { ObjectVisionResult } from '../types';
 
 export const LookAroundPage: React.FC = () => {
-  const { navigateTo, speakText, t } = useApp();
+  const { navigateTo, speakText, t, capturedImage } = useApp();
   const [selectedObjectIndex, setSelectedObjectIndex] = useState(0);
   const [isScanning, setIsScanning] = useState(false);
   const [customSearchQuery, setCustomSearchQuery] = useState('');
@@ -48,7 +48,7 @@ export const LookAroundPage: React.FC = () => {
 
     setIsScanning(true);
     try {
-      const res = await visionService.lookAroundScan(customSearchQuery.trim());
+      const res = await visionService.lookAroundScan(customSearchQuery.trim(), capturedImage || undefined);
       if (res) {
         setCurrentObj(res);
         speakText(res.locationDescription);
@@ -63,7 +63,7 @@ export const LookAroundPage: React.FC = () => {
   const handleScanAgain = async () => {
     setIsScanning(true);
     try {
-      const res = await visionService.lookAroundScan(currentObj.objectName);
+      const res = await visionService.lookAroundScan(currentObj.objectName, capturedImage || undefined);
       if (res) {
         setCurrentObj(res);
         speakText(res.locationDescription);
@@ -148,7 +148,7 @@ export const LookAroundPage: React.FC = () => {
       {/* Realtime Continuous AR Scanning Viewfinder */}
       <div className="relative rounded-3xl overflow-hidden shadow-soft bg-sahayak-text aspect-[4/3] sm:aspect-[16/10] flex items-center justify-center">
         <img
-          src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1000&q=80"
+          src={capturedImage || 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1000&q=80'}
           alt="Room scanning"
           className="w-full h-full object-cover opacity-85"
         />
