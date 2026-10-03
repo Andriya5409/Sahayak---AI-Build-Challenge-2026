@@ -264,7 +264,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distPath = path.join(__dirname, '../dist');
 app.use(express.static(distPath));
-app.get('*', (req, res) => { res.sendFile(path.join(distPath, 'index.html')); });
+app.get(/.*/, (req, res) => { res.sendFile(path.join(distPath, 'index.html')); });
 
 // Start Express server
 if (!process.env.VERCEL) { app.listen(PORT, () => {
