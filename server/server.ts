@@ -67,7 +67,7 @@ app.use('/api/profile', profileRouter);
 app.use('/api/calls', callRouter);
 
 // Root HTML Dashboard for easy browser viewing & testing
-app.get('/', (req, res) => {
+app.get('/api-dashboard', (req, res) => {
   res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
