@@ -16,6 +16,7 @@ import { voiceService } from '../services/voiceService';
 
 export const VoicePage: React.FC = () => {
   const { 
+    user,
     voiceState, 
     setVoiceState, 
     currentVoiceExchange, 
@@ -46,7 +47,7 @@ export const VoicePage: React.FC = () => {
     setActivePromptText(spokenText || 'Processing audio...');
 
     // Call live backend AI
-    const exchange = await voiceService.processVoiceInput(spokenText, audioBase64);
+    const exchange = await voiceService.processVoiceInput(spokenText, audioBase64, user.language);
     setCurrentVoiceExchange(exchange);
     setVoiceState('speaking');
 

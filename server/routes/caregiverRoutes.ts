@@ -4,25 +4,25 @@ import { store } from '../data/store.js';
 export const caregiverRouter = Router();
 
 // GET /api/caregiver
-caregiverRouter.get('/', (req, res) => {
-  const caregiverInfo = store.getCaregiver();
+caregiverRouter.get('/', async (req, res) => {
+  const caregiverInfo = await store.getCaregiver();
   res.json(caregiverInfo);
 });
 
 // GET /api/caregiver/activity
-caregiverRouter.get('/activity', (req, res) => {
-  const activities = store.getCaregiverActivities();
+caregiverRouter.get('/activity', async (req, res) => {
+  const activities = await store.getCaregiverActivities();
   res.json(activities);
 });
 
 // POST /api/caregiver/activity
-caregiverRouter.post('/activity', (req, res) => {
+caregiverRouter.post('/activity', async (req, res) => {
   const { title, description, type } = req.body;
   if (!title) {
     return res.status(400).json({ error: 'Activity title is required' });
   }
 
-  const activity = store.addCaregiverActivity({
+  const activity = await store.addCaregiverActivity({
     title,
     description: description || '',
     type: type || 'checkup',

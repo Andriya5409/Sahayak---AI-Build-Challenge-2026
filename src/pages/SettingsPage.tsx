@@ -14,7 +14,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { TextSize, SpeechSpeed, VoiceGender } from '../types';
+import { TextSize, SpeechSpeed, VoiceGender, Language } from '../types';
 
 export const SettingsPage: React.FC = () => {
   const { 
@@ -52,6 +52,44 @@ export const SettingsPage: React.FC = () => {
       </div>
 
       <div className="space-y-5">
+        {/* 1. Language */}
+        <div className="bg-white rounded-3xl p-6 border-3 border-slate-200 shadow-soft space-y-3">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center">
+              <Globe className="w-6 h-6" />
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+                {t('languageLabel')}
+              </h2>
+              <p className="text-sm text-slate-500 font-medium">Choose your primary language</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 pt-2">
+            {[
+              { id: 'en' as Language, label: 'English', sub: 'Default' },
+              { id: 'ml' as Language, label: 'മലയാളം', sub: 'Malayalam' },
+            ].map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => updateUser({ language: item.id })}
+                className={`p-4 rounded-2xl border-2 text-left transition-all ${
+                  user.language === item.id
+                    ? 'border-indigo-500 bg-indigo-50'
+                    : 'border-slate-200 bg-slate-50 hover:border-slate-300'
+                }`}
+              >
+                <span className={`text-lg font-bold block ${
+                  user.language === item.id ? 'text-indigo-700' : 'text-slate-700'
+                }`}>{item.label}</span>
+                <span className="text-xs text-slate-500">{item.sub}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* 2. Text Size (Elder accessibility) */}
         <div className="bg-white rounded-3xl p-6 border border-sahayak-bgWarm shadow-soft space-y-3">
           <div className="flex items-center gap-3">

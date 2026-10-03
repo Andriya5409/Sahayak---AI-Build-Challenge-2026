@@ -33,16 +33,16 @@ voiceRouter.get('/presets', (req, res) => {
 // POST /api/voice
 voiceRouter.post('/', async (req, res) => {
   try {
-    const { prompt, audioData, history } = req.body;
+    const { prompt, audioData, history, language } = req.body;
     const spokenText = prompt || (audioData ? 'Processing audio...' : 'Remind me to take my medicine at 8 PM');
-    const profile = store.getProfile();
+    const profile = await store.getProfile();
 
-    const exchange = await geminiService.processVoice(spokenText, history, profile, audioData);
+    const exchange = await geminiService.processVoice(spokenText, history, profile, audioData, language);
 
     // If an action was extracted to create a reminder, link it to the store if requested
     if (exchange.actionTaken?.type === 'create_reminder' && exchange.actionTaken.payload) {
       const payload = exchange.actionTaken.payload;
-      const createdReminder = store.addReminder({
+      const createdReminder = await store.addReminder({
         title: payload.title || 'Medicine Reminder',
         category: payload.category || 'medicine',
         time: payload.time || '8:00 PM',

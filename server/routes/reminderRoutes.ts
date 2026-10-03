@@ -4,31 +4,31 @@ import { store } from '../data/store.js';
 export const reminderRouter = Router();
 
 // GET /api/reminders
-reminderRouter.get('/', (req, res) => {
-  const reminders = store.getReminders();
+reminderRouter.get('/', async (req, res) => {
+  const reminders = await store.getReminders();
   res.json(reminders);
 });
 
 // GET /api/reminders/today
-reminderRouter.get('/today', (req, res) => {
-  const reminders = store.getTodayReminders();
+reminderRouter.get('/today', async (req, res) => {
+  const reminders = await store.getTodayReminders();
   res.json(reminders);
 });
 
 // GET /api/reminders/upcoming
-reminderRouter.get('/upcoming', (req, res) => {
-  const reminders = store.getUpcomingReminders();
+reminderRouter.get('/upcoming', async (req, res) => {
+  const reminders = await store.getUpcomingReminders();
   res.json(reminders);
 });
 
 // POST /api/reminders
-reminderRouter.post('/', (req, res) => {
+reminderRouter.post('/', async (req, res) => {
   const { title, category, time, dateLabel, datetime, dosageOrNotes, doctorName, amount, icon } = req.body;
   if (!title) {
     return res.status(400).json({ error: 'Title is required for reminder' });
   }
 
-  const newReminder = store.addReminder({
+  const newReminder = await store.addReminder({
     title,
     category: category || 'custom',
     time: time || '8:00 PM',
@@ -45,9 +45,9 @@ reminderRouter.post('/', (req, res) => {
 });
 
 // PUT /api/reminders/:id
-reminderRouter.put('/:id', (req, res) => {
+reminderRouter.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const updated = store.updateReminder(id, req.body);
+  const updated = await store.updateReminder(id, req.body);
   if (!updated) {
     return res.status(404).json({ error: 'Reminder not found' });
   }
@@ -55,9 +55,9 @@ reminderRouter.put('/:id', (req, res) => {
 });
 
 // PATCH /api/reminders/:id/complete
-reminderRouter.patch('/:id/complete', (req, res) => {
+reminderRouter.patch('/:id/complete', async (req, res) => {
   const { id } = req.params;
-  const updated = store.toggleReminderCompleted(id);
+  const updated = await store.toggleReminderCompleted(id);
   if (!updated) {
     return res.status(404).json({ error: 'Reminder not found' });
   }
@@ -65,9 +65,9 @@ reminderRouter.patch('/:id/complete', (req, res) => {
 });
 
 // DELETE /api/reminders/:id
-reminderRouter.delete('/:id', (req, res) => {
+reminderRouter.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  const deleted = store.deleteReminder(id);
+  const deleted = await store.deleteReminder(id);
   if (!deleted) {
     return res.status(404).json({ error: 'Reminder not found' });
   }

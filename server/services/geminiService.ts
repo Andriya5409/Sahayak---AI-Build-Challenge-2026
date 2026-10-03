@@ -128,7 +128,8 @@ export class GeminiService {
     prompt: string,
     history: { role: 'user' | 'model'; parts: string }[] = [],
     userProfile?: any,
-    audioData?: string
+    audioData?: string,
+    language: string = 'en'
   ): Promise<VoiceResult> {
     const salutation = userProfile?.salutation || 'Amma';
     const lower = prompt.toLowerCase();
@@ -138,7 +139,7 @@ export class GeminiService {
         const systemInstruction = `You are Sahayak (सहायक), a loving, empathetic, highly patient AI companion for elderly citizens in India.
 The user is respectfully addressed as "${salutation}".
 Rules:
-1. Always respond in warm, polite, reassuring, simple English (2-3 sentences max).
+1. ${language === 'ml' ? 'Always respond in warm, polite, reassuring, simple Malayalam (മലയാളം) (2-3 sentences max). Use Malayalam script.' : 'Always respond in warm, polite, reassuring, simple English (2-3 sentences max).'}
 2. Prioritize clarity, safety, and kindness.
 3. Automatically determine if the user is asking to:
    - Remember or schedule medicine, doctor visits, or bill payments -> action: "create_reminder"

@@ -17,7 +17,7 @@ interface CallSession {
 const activeCalls: Map<string, CallSession> = new Map();
 
 // POST /api/calls/initiate
-callRouter.post('/initiate', (req, res) => {
+callRouter.post('/initiate', async (req, res) => {
   const { contact, isEmergency } = req.body;
   if (!contact) {
     return res.status(400).json({ error: 'Contact is required to initiate call' });
@@ -36,7 +36,7 @@ callRouter.post('/initiate', (req, res) => {
 
   activeCalls.set(callId, session);
 
-  store.addCaregiverActivity({
+  await store.addCaregiverActivity({
     title: isEmergency ? `🚨 Emergency Call Initiated` : `📞 Call to ${contact.name}`,
     description: `Outgoing call to ${contact.relation} (${contact.phone})`,
     type: 'call',
@@ -50,7 +50,7 @@ callRouter.post('/initiate', (req, res) => {
 });
 
 // POST /api/calls/terminate
-callRouter.post('/terminate', (req, res) => {
+callRouter.post('/terminate', async (req, res) => {
   const { callId } = req.body;
   if (callId && activeCalls.has(callId)) {
     const session = activeCalls.get(callId)!;
@@ -62,7 +62,7 @@ callRouter.post('/terminate', (req, res) => {
 });
 
 // GET /api/calls/status/:id
-callRouter.get('/status/:id', (req, res) => {
+callRouter.get('/status/:id', async (req, res) => {
   const { id } = req.params;
   const session = activeCalls.get(id);
   if (!session) {

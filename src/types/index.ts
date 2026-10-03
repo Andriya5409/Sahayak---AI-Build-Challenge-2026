@@ -1,4 +1,4 @@
-export type Language = 'en'; // English only
+export type Language = 'en' | 'ml'; // English or Malayalam
 
 export type TextSize = 'small' | 'medium' | 'large';
 

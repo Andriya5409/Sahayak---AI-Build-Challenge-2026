@@ -2,7 +2,7 @@ import { VoiceExchange, VoiceState } from '../types';
 import { mockVoicePresetExchanges } from '../mock/data';
 
 export interface IVoiceService {
-  processVoiceInput(spokenText: string): Promise<VoiceExchange>;
+  processVoiceInput(spokenText: string, audioBase64?: string, language?: string): Promise<VoiceExchange>;
   getPresets(): { label: string; prompt: string; key: string }[];
 }
 
@@ -32,12 +32,12 @@ class VoiceService implements IVoiceService {
     ];
   }
 
-  public async processVoiceInput(spokenText: string, audioBase64?: string): Promise<VoiceExchange> {
+  public async processVoiceInput(spokenText: string, audioBase64?: string, language: string = 'en'): Promise<VoiceExchange> {
     try {
       const response = await fetch('/api/voice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: spokenText, audioData: audioBase64 }),
+        body: JSON.stringify({ prompt: spokenText, audioData: audioBase64, language }),
       });
 
       if (response.ok) {
