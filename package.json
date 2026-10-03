@@ -9,7 +9,8 @@
     "server:dev": "tsx watch server/server.ts",
     "dev:all": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"tsx watch server/server.ts\" \"vite\"",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "tsx server/server.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -21,7 +22,8 @@
     "lucide-react": "^1.16.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.5.4"
+    "tailwind-merge": "^2.5.4",
+    "tsx": "^4.23.15"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
@@ -34,7 +36,6 @@
     "concurrently": "^10.0.5",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14",
-    "tsx": "^4.23.15",
     "typescript": "~5.6.2",
     "vite": "^5.4.10"
   }

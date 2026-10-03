@@ -1,4 +1,6 @@
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { voiceRouter } from './routes/voiceRoutes.js';
@@ -258,6 +260,12 @@ app.get('/api', (req, res) => {
   });
 });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const distPath = path.join(__dirname, '../dist');
+app.use(express.static(distPath));
+app.get('*', (req, res) => { res.sendFile(path.join(distPath, 'index.html')); });
+
 // Start Express server
 if (!process.env.VERCEL) { app.listen(PORT, () => {
   console.log(`===============================================`);
@@ -270,3 +278,4 @@ if (!process.env.VERCEL) { app.listen(PORT, () => {
 
 }
 export default app;
+
