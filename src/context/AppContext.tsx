@@ -212,16 +212,20 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setIsLoggedIn(true);
+        setCurrentScreen('home');
       } else {
         setIsLoggedIn(false);
+        setCurrentScreen('login');
       }
-    });
+    }).catch(e => console.error(e));
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
         setIsLoggedIn(true);
+        setCurrentScreen('home');
       } else {
         setIsLoggedIn(false);
+        setCurrentScreen('login');
       }
     });
 
