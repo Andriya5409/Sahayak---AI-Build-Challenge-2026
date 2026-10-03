@@ -183,7 +183,21 @@ export const translations = {
     medicineCompliance: 'Medicine Taken Today',
     upcomingAppointments: 'Upcoming Doctor Appointments',
     recentAlerts: 'Safety & Help Status',
-    privacyNote: 'Camera feeds and private chats remain strictly confidential.'
+    // Additional UI Strings
+    sahayakName: 'Sahayak',
+    yourCompanion: 'Your AI Companion',
+    goBackAriaLabel: 'Go back',
+    stopVoicePlayback: 'Stop speaking',
+    sos: 'SOS',
+    switchCaregiverPortalTitle: 'Switch to Caregiver Portal',
+    settingsAriaLabel: 'Settings',
+    accessibilitySettingsTitle: 'Accessibility Settings',
+    emergencySOSTitle: 'Emergency SOS',
+    mainNavigation: 'Main Navigation',
+    appTourMode: 'Guided App Tour',
+    exploreFeatures: 'Explore Features',
+    startTour: 'Start Tour',
+    guidedTour: 'Guided Tour'
   },
   ml: {
     appTitle: 'സഹായക്',
@@ -367,7 +381,21 @@ export const translations = {
     medicineCompliance: 'ഇന്ന് കഴിച്ച മരുന്നുകൾ',
     upcomingAppointments: 'വരാനിരിക്കുന്ന ഡോക്ടർ അപ്പോയിന്റ്മെന്റുകൾ',
     recentAlerts: 'സുരക്ഷ & സഹായ നില',
-    privacyNote: 'ക്യാമറ ഫീഡുകളും സ്വകാര്യ ചാറ്റുകളും കർശനമായി രഹസ്യമായി സൂക്ഷിക്കും.'
+    // Additional UI Strings
+    sahayakName: 'സഹായക്',
+    yourCompanion: 'നിങ്ങളുടെ AI കൂട്ടുകാരൻ',
+    goBackAriaLabel: 'തിരികെ പോകുക',
+    stopVoicePlayback: 'സംസാരം നിർത്തുക',
+    sos: 'സഹായം (SOS)',
+    switchCaregiverPortalTitle: 'കെയർഗിവർ പോർട്ടലിലേക്ക് മാറുക',
+    settingsAriaLabel: 'ക്രമീകരണങ്ങൾ',
+    accessibilitySettingsTitle: 'ആക്സസിബിലിറ്റി ക്രമീകരണങ്ങൾ',
+    emergencySOSTitle: 'അടിയന്തര സഹായം',
+    mainNavigation: 'പ്രധാന മെനു',
+    appTourMode: 'ആപ്പ് ടൂർ',
+    exploreFeatures: 'സവിശേഷതകൾ കാണുക',
+    startTour: 'ടൂർ തുടങ്ങുക',
+    guidedTour: 'വഴികാട്ടിയുള്ള ടൂർ'
   }
 };
 

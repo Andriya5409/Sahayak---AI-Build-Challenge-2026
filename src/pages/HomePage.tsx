@@ -24,7 +24,7 @@ export const HomePage: React.FC = () => {
   const nextMedicine = reminders.find((r) => r.category === 'medicine' && !r.completed);
   const nextAppointment = reminders.find((r) => r.category === 'appointment' && !r.completed);
 
-  const proactiveGreetingSummary = `${user.salutation}, you have medicine scheduled for ${nextMedicine ? nextMedicine.time : '8:00 PM'}, and the weather in Kochi is pleasant at 28 degrees. I am ready to help you.`;
+  const proactiveGreetingSummary = `${user.salutation}, you have medicine scheduled for ${nextMedicine ? nextMedicine.time : '8:00 PM'}, and the weather is pleasant today. I am ready to help you.`;
 
   // Safely remove emoji from greeting (except heart)
   const formatGreeting = (text: string) => {
@@ -38,7 +38,7 @@ export const HomePage: React.FC = () => {
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="text-3xl sm:text-4xl font-bold text-sahayak-text leading-tight">
-              {formatGreeting(t('greeting'))}
+              {formatGreeting(t('greeting').replace('Amma', user.salutation).replace('അമ്മാ', user.salutation))}
             </h1>
             <p className="text-xl text-sahayak-textMuted font-normal mt-2">
               {t('hereWheneverYouNeedMe')}

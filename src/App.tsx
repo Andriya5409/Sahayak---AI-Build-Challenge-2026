@@ -19,7 +19,8 @@ import { CallingPage } from './pages/CallingPage';
 import { EmergencyPage } from './pages/EmergencyPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { CaregiverPortalPage } from './pages/CaregiverPortalPage';
-
+import { LoginPage } from './pages/LoginPage';
+import { ProfilePage } from './pages/ProfilePage';
 const ScreenRouter: React.FC = () => {
   const { currentScreen } = useApp();
 
@@ -50,34 +51,33 @@ const ScreenRouter: React.FC = () => {
       return <SettingsPage />;
     case 'caregiver':
       return <CaregiverPortalPage />;
+    case 'login':
+      return <LoginPage />;
+    case 'profile':
+      return <ProfilePage />;
     default:
       return <HomePage />;
   }
 };
 
 const MainLayout: React.FC = () => {
-  const { currentScreen } = useApp();
+  const { currentScreen, isLoggedIn } = useApp();
 
-  // Hide bottom nav during active full-screen calls for pure focus
+  // Show login page without any chrome
+  if (!isLoggedIn || currentScreen === 'login') {
+    return <LoginPage />;
+  }
+
   const showBottomNav = currentScreen !== 'calling';
 
   return (
     <div className="min-h-screen flex flex-col bg-sahayak-bg text-sahayak-text selection:bg-sahayak-primaryLight">
-      {/* 1. Interactive Demo Stepper Banner */}
       <GuidedDemoBanner />
-
-      {/* 2. Top Header Navigation */}
       <Header />
-
-      {/* 3. Main Content Container */}
       <main className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 pt-6 pb-24">
         <ScreenRouter />
       </main>
-
-      {/* 4. Bottom Navigation */}
       {showBottomNav && <BottomNav />}
-
-      {/* 5. Global Confirmation Modal */}
       <ConfirmModal />
     </div>
   );

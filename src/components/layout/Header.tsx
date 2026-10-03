@@ -77,6 +77,16 @@ export const Header: React.FC = () => {
             </button>
           )}
 
+          {/* Profile Avatar */}
+          <button
+            type="button"
+            onClick={() => navigateTo('profile')}
+            className="w-10 h-10 rounded-full bg-sahayak-primaryLight flex items-center justify-center text-xl hover:ring-2 hover:ring-sahayak-primary transition-all"
+            title="My Profile"
+          >
+            {user.avatar || '👤'}
+          </button>
+
           {/* Caregiver Portal Switch */}
           <button
             type="button"

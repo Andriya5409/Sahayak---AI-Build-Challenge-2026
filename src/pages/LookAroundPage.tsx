@@ -159,7 +159,7 @@ export const LookAroundPage: React.FC = () => {
             <div className="flex flex-col items-center gap-3 bg-white/95 text-sahayak-primary px-6 py-4 rounded-2xl shadow-soft">
               <RefreshCw className="w-8 h-8 animate-spin" />
               <p className="font-semibold text-lg text-sahayak-text">{t('scanningRoomSpace')}</p>
-              <p className="text-xs text-sahayak-textMuted">Identifying spatial coordinates with AI...</p>
+              <p className="text-xs text-sahayak-textMuted">Looking carefully...</p>
             </div>
           </div>
         )}

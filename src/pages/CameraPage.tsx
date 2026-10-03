@@ -36,22 +36,22 @@ export const CameraPage: React.FC = () => {
   // Sample defaults when camera or upload is not yet engaged
   const sampleImages: Record<CameraCaptureMode, { title: string; image: string; tag: string }> = {
     medicine: {
-      title: 'Sample: Paracetamol Strip',
+      title: 'Example: Paracetamol Strip',
       image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
       tag: 'Medicine Scan',
     },
     document: {
-      title: 'Sample: Electricity Bill',
+      title: 'Example: Electricity Bill',
       image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80',
       tag: 'Bill / Document Scan',
     },
     object: {
-      title: 'Sample: Household Object',
+      title: 'Example: Household Object',
       image: 'https://images.unsplash.com/photo-1591076482161-42ce6da69f67?auto=format&fit=crop&w=800&q=80',
       tag: 'Object Scan',
     },
     look_around: {
-      title: 'Sample: Living Room',
+      title: 'Example: Living Room',
       image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=800&q=80',
       tag: 'Realtime Room Scan',
     },
@@ -323,7 +323,7 @@ export const CameraPage: React.FC = () => {
           className="w-full sm:w-auto py-3.5 px-6 rounded-2xl bg-white hover:bg-slate-50 text-sahayak-text font-semibold text-base flex items-center justify-center gap-2 border border-slate-200 shadow-sm transition-all"
         >
           <Upload className="w-5 h-5 text-sahayak-primary" />
-          <span>Upload Real Image</span>
+          <span>Upload Photo</span>
         </button>
 
         {/* Main Capture / Analyze Button */}
@@ -335,7 +335,7 @@ export const CameraPage: React.FC = () => {
           aria-label={t('captureButton')}
         >
           <Camera className="w-7 h-7" />
-          <span>{uploadedImage ? 'Analyze Photo with AI' : t('captureButton')}</span>
+          <span>{uploadedImage ? 'Analyze Photo' : t('captureButton')}</span>
         </button>
       </div>
     </div>

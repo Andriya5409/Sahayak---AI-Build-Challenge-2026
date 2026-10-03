@@ -22,9 +22,13 @@ import {
 } from '../mock/data';
 import { translations, getTranslation } from '../i18n/translations';
 import { ttsService } from '../services/ttsService';
+import { supabase } from '../lib/supabase';
+
 import { reminderService } from '../services/reminderService';
 import { familyService } from '../services/familyService';
 import { callService } from '../services/callService';
+
+
 
 export type ScreenType = 
   | 'home' 
@@ -39,7 +43,7 @@ export type ScreenType =
   | 'calling' 
   | 'emergency' 
   | 'settings' 
-  | 'caregiver';
+  | 'caregiver' | 'login' | 'profile';
 
 interface AppContextType {
   // Navigation
@@ -47,6 +51,9 @@ interface AppContextType {
   navigateTo: (screen: ScreenType, options?: { replace?: boolean; payload?: any }) => void;
   goBack: () => void;
   screenHistory: ScreenType[];
+  isLoggedIn: boolean;
+  login: () => void;
+  logout: () => void;
 
   // User & Accessibility
   user: UserProfile;
@@ -135,7 +142,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return saved ? JSON.parse(saved) : mockUserProfile;
   });
 
-  const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => !!localStorage.getItem('sahayak_logged_in'));
+  const [currentScreen, setCurrentScreen] = useState<ScreenType>(() => localStorage.getItem('sahayak_logged_in') ? 'home' : 'login');
   const [screenHistory, setScreenHistory] = useState<ScreenType[]>(['home']);
 
   const [reminders, setReminders] = useState<Reminder[]>(initialReminders);
@@ -200,6 +208,26 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     familyService.getContacts().then((data) => {
       if (data && data.length > 0) setContacts(data);
     }).catch(console.error);
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   // Call timer simulation
@@ -212,6 +240,18 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
     return () => clearInterval(interval);
   }, [activeCall?.state]);
+
+  const login = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem('sahayak_logged_in', 'true');
+    navigateTo('home');
+  };
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem('sahayak_logged_in');
+    navigateTo('login');
+  };
 
   const updateUser = (updates: Partial<UserProfile>) => {
     setUser((prev) => ({ ...prev, ...updates }));
@@ -395,6 +435,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         navigateTo,
         goBack,
         screenHistory,
+        isLoggedIn,
+        login,
+        logout,
         user,
         updateUser,
         t,
