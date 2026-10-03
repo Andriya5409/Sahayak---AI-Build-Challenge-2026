@@ -259,7 +259,7 @@ app.get('/api', (req, res) => {
 });
 
 // Start Express server
-app.listen(PORT, () => {
+if (!process.env.VERCEL) { app.listen(PORT, () => {
   console.log(`===============================================`);
   console.log(`🚀 Sahayak Backend Server running on port ${PORT}`);
   console.log(`🔗 API Base: http://localhost:${PORT}/api`);
@@ -268,4 +268,5 @@ app.listen(PORT, () => {
   console.log(`===============================================`);
 });
 
+}
 export default app;
